@@ -29,12 +29,6 @@ namespace invetario_api.Modules.users
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] dto.UserDto userDto)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-
             var newUser = await _userService.createUser(userDto);
             return Ok(newUser);
         }

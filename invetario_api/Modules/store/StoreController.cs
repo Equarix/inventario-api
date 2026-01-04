@@ -40,9 +40,6 @@ namespace invetario_api.Modules.store
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Create([FromBody] StoreDto data)
         {
-            if (!ModelState.IsValid) {
-                return BadRequest(ModelState);
-            }
             var result = await _storeService.createStore(data);
             return Ok(result);
         }
@@ -51,10 +48,6 @@ namespace invetario_api.Modules.store
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> update(int storeId, [FromBody] UpdateStoreDto data)
         {
-            if (!ModelState.IsValid) {
-                return BadRequest(ModelState);
-            }
-
             var result = await _storeService.updateStore(storeId, data);
             return Ok(result);
         }

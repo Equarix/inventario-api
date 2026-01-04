@@ -32,8 +32,7 @@ namespace invetario_api.Modules.categories
         [HttpGet("{categoryId:int}")]
         [Authorize]
         public async Task<IActionResult> FindById(int categoryId) {
-
-            var result = await _categoryService.getCategoryById(categoryId)
+            var result = await _categoryService.getCategoryById(categoryId);
             return Ok(result);
         }
 
@@ -41,11 +40,6 @@ namespace invetario_api.Modules.categories
         [Authorize(Roles = "ADMIN,STORE")]
         public async Task<IActionResult> Create([FromBody] CategoryDto data)
         {
-            if (!ModelState.IsValid) {
-                return BadRequest(ModelState);
-            }
-
-
             var result = await _categoryService.createCategory(data);
             return Ok(result);
         }
@@ -54,11 +48,6 @@ namespace invetario_api.Modules.categories
         [Authorize(Roles = "ADMIN,STORE")]
         public async Task<IActionResult> update(int categoryId, [FromBody] UpdateCategoryDto data)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var result = await _categoryService.updateCategory(categoryId, data);
             return Ok(result);
         }

@@ -23,14 +23,7 @@ namespace invetario_api.Modules.auth
         [Route("login")]
         public async Task<IActionResult> login([FromBody] LoginDto loginDto)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-
             var loginResponse = await _authService.login(loginDto);
-
             return Ok(loginResponse);
         }
     }

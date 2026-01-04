@@ -20,6 +20,7 @@ builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<GlobalExceptionFilter>();
     opt.Filters.Add<ApiFilter>();
+    opt.Filters.Add<ValidateModelFilter>();
 });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
