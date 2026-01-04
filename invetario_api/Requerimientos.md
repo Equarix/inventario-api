@@ -13,32 +13,34 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-01 Gestión de Usuarios
 
-* El sistema debe permitir:
+- El sistema debe permitir:
 
-  * Crear usuarios [X]
-  * Editar usuarios
-  * Activar / desactivar usuarios
-* Campos mínimos:
+  - Crear usuarios [X]
+  - Editar usuarios
+  - Activar / desactivar usuarios
 
-  * Nombre
-  * Email
-  * Usuario
-  * Contraseña (encriptada)
+- Campos mínimos:
+
+  - Nombre
+  - Email
+  - Usuario
+  - Contraseña (encriptada)
 
 ---
 
 ### RF-02 Roles y Permisos
 
-* El sistema debe manejar roles:
+- El sistema debe manejar roles:
 
-  * Administrador
-  * Almacén
-  * Ventas
-  * Auditor (solo lectura)
-* Cada rol tendrá permisos configurables:
+  - Administrador
+  - Almacén
+  - Ventas
+  - Auditor (solo lectura)
 
-  * Acceso a módulos
-  * Acciones (crear, editar, eliminar, ver)
+- Cada rol tendrá permisos configurables:
+
+  - Acceso a módulos
+  - Acciones (crear, editar, eliminar, ver)
 
 ---
 
@@ -46,30 +48,31 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-03 Gestión de Productos
 
-* El sistema debe permitir:
+- El sistema debe permitir:
 
-  * Crear, editar, eliminar productos
-* Campos:
+  - Crear, editar, eliminar productos [X]
 
-  * Código interno
-  * Código de barras
-  * Nombre
-  * Descripción
-  * Categoría
-  * Unidad de medida
-  * Precio de compra
-  * Precio de venta
-  * Stock mínimo
-  * Estado (activo/inactivo)
+- Campos:
+
+  - Código interno
+  - Código de barras
+  - Nombre
+  - Descripción
+  - Categoría
+  - Unidad de medida
+  - Precio de compra
+  - Precio de venta
+  - Stock mínimo
+  - Estado (activo/inactivo)
 
 ---
 
 ### RF-04 Categorías y Unidades
 
-* Gestión de:
+- Gestión de:
 
-  * Categorías de producto [X]
-  * Unidades de medida (UND, KG, LT, etc.) [X]
+  - Categorías de producto [X]
+  - Unidades de medida (UND, KG, LT, etc.) [X]
 
 ---
 
@@ -77,10 +80,10 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-05 Gestión de Almacenes
 
-* El sistema debe permitir:
- 
-  * Crear múltiples almacenes [X]
-  * Asignar productos a almacenes
+- El sistema debe permitir:
+
+  - Crear múltiples almacenes [X]
+  - Asignar productos a almacenes
 
 | Atributo                        | Tipo / Formato | Descripción                                  |
 | ------------------------------- | -------------- | -------------------------------------------- |
@@ -99,37 +102,53 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 | **Fecha de Actualización**      | DATETIME       | Última modificación                          |
 | **Observaciones**               | TEXT           | Notas adicionales sobre el almacén           |
 
+| Atributo                  | Tipo sugerido (SQL Server)      | Descripción                                |
+| ------------------------- | ------------------------------- | ------------------------------------------ |
+| **ProductStoreId**        | INT IDENTITY / UNIQUEIDENTIFIER | Identificador único                        |
+| **ProductId**             | INT (FK)                        | Producto asociado                          |
+| **StoreId**               | INT (FK)                        | Almacén asociado                           |
+| **StockActual**           | DECIMAL(18,2)                   | Stock disponible actual                    |
+| **StockReservado**        | DECIMAL(18,2)                   | Stock comprometido (ventas/pedidos)        |
+| **StockDisponible**       | DECIMAL(18,2)                   | StockActual - StockReservado               |
+| **StockMinimo**           | DECIMAL(18,2)                   | Stock mínimo permitido                     |
+| **StockMaximo**           | DECIMAL(18,2)                   | Límite máximo recomendado                  |
+| **CostoPromedio**         | DECIMAL(18,6)                   | Costo promedio del producto en ese almacén |
+| **UltimoCosto**           | DECIMAL(18,6)                   | Último costo de compra                     |
+| **Estado**                | BIT                             | Activo / Inactivo                          |
+| **FechaUltimoMovimiento** | DATETIME                        | Última entrada o salida                    |
+| **CreadoPor**             | INT (FK Usuario)                | Usuario que creó el registro               |
+| **FechaCreacion**         | DATETIME                        | Fecha de creación                          |
 
 ---
 
 ### RF-06 Control de Stock
 
-* El sistema debe:
+- El sistema debe:
 
-  * Mantener stock por **producto y almacén**
-  * Actualizar stock automáticamente con cada movimiento
-  * Evitar stock negativo (configurable)
+  - Mantener stock por **producto y almacén**
+  - Actualizar stock automáticamente con cada movimiento
+  - Evitar stock negativo (configurable)
 
 ---
 
 ### RF-07 Kardex / Movimientos
 
-* Registrar cada movimiento de inventario:
+- Registrar cada movimiento de inventario:
 
-  * Entrada
-  * Salida
-  * Ajuste
-  * Transferencia
+  - Entrada
+  - Salida
+  - Ajuste
+  - Transferencia
 
-* Cada movimiento debe guardar:
+- Cada movimiento debe guardar:
 
-  * Fecha
-  * Tipo de movimiento
-  * Documento origen
-  * Usuario
-  * Cantidad
-  * Stock anterior
-  * Stock posterior
+  - Fecha
+  - Tipo de movimiento
+  - Documento origen
+  - Usuario
+  - Cantidad
+  - Stock anterior
+  - Stock posterior
 
 ---
 
@@ -137,26 +156,27 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-08 Registro de Órdenes de Entrada
 
-* El sistema debe permitir:
+- El sistema debe permitir:
 
-  * Registrar órdenes de entrada (compras)
-  * Asociar proveedor
-  * Registrar múltiples productos por orden
+  - Registrar órdenes de entrada (compras)
+  - Asociar proveedor
+  - Registrar múltiples productos por orden
 
 ---
 
 ### RF-09 Confirmación de Entrada
 
-* Al confirmar una orden:
+- Al confirmar una orden:
 
-  * Se incrementa el stock
-  * Se generan movimientos de inventario
-  * La orden queda en estado **Confirmada**
-* Estados:
+  - Se incrementa el stock
+  - Se generan movimientos de inventario
+  - La orden queda en estado **Confirmada**
 
-  * Pendiente
-  * Confirmada
-  * Anulada
+- Estados:
+
+  - Pendiente
+  - Confirmada
+  - Anulada
 
 ---
 
@@ -164,30 +184,30 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-10 Registro de Órdenes de Salida
 
-* Permitir registrar salidas por:
+- Permitir registrar salidas por:
 
-  * Venta
-  * Consumo interno
-  * Merma
+  - Venta
+  - Consumo interno
+  - Merma
 
 ---
 
 ### RF-11 Validación de Stock
 
-* Antes de confirmar una salida:
+- Antes de confirmar una salida:
 
-  * Validar stock disponible
-  * Bloquear si no hay stock suficiente
+  - Validar stock disponible
+  - Bloquear si no hay stock suficiente
 
 ---
 
 ### RF-12 Confirmación de Salida
 
-* Al confirmar:
+- Al confirmar:
 
-  * Se descuenta stock
-  * Se registra movimiento de inventario
-  * Cambia estado de la orden
+  - Se descuenta stock
+  - Se registra movimiento de inventario
+  - Cambia estado de la orden
 
 ---
 
@@ -195,26 +215,27 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-13 Registro de Ventas
 
-* El sistema debe permitir:
+- El sistema debe permitir:
 
-  * Crear ventas
-  * Asociar cliente
-  * Registrar detalle de productos
-* Cálculo automático:
+  - Crear ventas
+  - Asociar cliente
+  - Registrar detalle de productos
 
-  * Subtotal
-  * Impuestos
-  * Total
+- Cálculo automático:
+
+  - Subtotal
+  - Impuestos
+  - Total
 
 ---
 
 ### RF-14 Impacto en Inventario
 
-* Cada venta confirmada:
+- Cada venta confirmada:
 
-  * Genera una orden de salida
-  * Actualiza stock
-  * Registra kardex
+  - Genera una orden de salida
+  - Actualiza stock
+  - Registra kardex
 
 ---
 
@@ -222,14 +243,14 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-15 Gestión de Clientes
 
-* Crear, editar, desactivar clientes
-* Datos básicos (nombre, documento, contacto)
+- Crear, editar, desactivar clientes
+- Datos básicos (nombre, documento, contacto)
 
 ---
 
 ### RF-16 Gestión de Proveedores
 
-* Crear, editar, desactivar proveedores
+- Crear, editar, desactivar proveedores
 
 ---
 
@@ -237,31 +258,32 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-17 Reporte de Inventario
 
-* Mostrar:
+- Mostrar:
 
-  * Stock actual por producto y almacén
-  * Productos bajo stock mínimo
+  - Stock actual por producto y almacén
+  - Productos bajo stock mínimo
 
 ---
 
 ### RF-18 Reporte de Kardex
 
-* Mostrar movimientos por:
+- Mostrar movimientos por:
 
-  * Producto
-  * Rango de fechas
-  * Tipo de movimiento
+  - Producto
+  - Rango de fechas
+  - Tipo de movimiento
 
 ---
 
 ### RF-19 Reporte de Ventas
 
-* Ventas por:
+- Ventas por:
 
-  * Fecha
-  * Cliente
-  * Producto
-* Totales y acumulados
+  - Fecha
+  - Cliente
+  - Producto
+
+- Totales y acumulados
 
 ---
 
@@ -269,22 +291,22 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RF-20 Auditoría
 
-* Registrar:
+- Registrar:
 
-  * Usuario
-  * Fecha
-  * Acción
-  * Entidad afectada
+  - Usuario
+  - Fecha
+  - Acción
+  - Entidad afectada
 
 ---
 
 ### RF-21 Historial de Cambios
 
-* Guardar cambios de:
+- Guardar cambios de:
 
-  * Precios
-  * Stock manual
-  * Estados de órdenes
+  - Precios
+  - Stock manual
+  - Estados de órdenes
 
 ---
 
@@ -292,29 +314,29 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 ### RN-01
 
-* No se puede eliminar un producto con movimientos
+- No se puede eliminar un producto con movimientos
 
 ### RN-02
 
-* No se puede confirmar una orden ya confirmada
+- No se puede confirmar una orden ya confirmada
 
 ### RN-03
 
-* El stock no puede ser negativo (configurable)
+- El stock no puede ser negativo (configurable)
 
 ### RN-04
 
-* Toda modificación de stock debe generar kardex
+- Toda modificación de stock debe generar kardex
 
 ---
 
 ## 🎯 Extras (Nivel Senior)
 
-* FIFO / Promedio ponderado
-* Transferencias entre almacenes
-* Importación masiva (Excel)
-* Jobs de cierre mensual
-* Cache de consultas frecuentes
+- FIFO / Promedio ponderado
+- Transferencias entre almacenes
+- Importación masiva (Excel)
+- Jobs de cierre mensual
+- Cache de consultas frecuentes
 
 ---
 

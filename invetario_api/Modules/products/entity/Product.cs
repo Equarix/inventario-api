@@ -28,13 +28,12 @@ namespace invetario_api.Modules.products.entity
         [ForeignKey(nameof(categoryId))]
         public Category category { get; set; }
 
-        
+
         [Required]
         public int unitId { get; set; }
 
         [ForeignKey(nameof(unitId))]
         public Unit unit { get; set; }
-
 
         [Required]
         public float priceBuy { get; set; }
