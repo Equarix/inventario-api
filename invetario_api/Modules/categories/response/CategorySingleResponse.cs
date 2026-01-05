@@ -13,11 +13,23 @@ namespace invetario_api.Modules.categories.response
         {
             return new CategorySingleResponse
             {
-                categoryId =  category.categoryId,
+                categoryId = category.categoryId,
                 name = category.name,
                 description = category.description,
                 status = category.status
             };
+        }
+
+        public static List<CategorySingleResponse> fromEntityList(List<Category> categories)
+        {
+            var responseList = new List<CategorySingleResponse>();
+
+            foreach (var category in categories)
+            {
+                responseList.Add(fromEntity(category));
+            }
+
+            return responseList;
         }
     }
 }

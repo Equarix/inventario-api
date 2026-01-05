@@ -2,6 +2,7 @@
 using invetario_api.Exceptions;
 using invetario_api.Modules.categories.dto;
 using invetario_api.Modules.categories.entity;
+using invetario_api.Modules.categories.response;
 using invetario_api.utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -13,20 +14,19 @@ namespace invetario_api.Modules.categories
     {
         private Database _db;
 
-        public CategoryService(Database db) { 
+        public CategoryService(Database db)
+        {
             _db = db;
         }
 
-        public async Task<List<Category>> getCategories()
+        public async Task<List<CategorySingleResponse>> getCategories()
         {
             var categories = await _db.categories.ToListAsync();
-
-
-            return categories;
+            return CategorySingleResponse.fromEntityList(categories);
         }
 
-        public async Task<Category> createCategory(CategoryDto data)
-        {   
+        public async Task<CategorySingleResponse> createCategory(CategoryDto data)
+        {
 
             var newCategory = new Category();
             newCategory.name = data.name;
@@ -35,14 +35,15 @@ namespace invetario_api.Modules.categories
             await _db.categories.AddAsync(newCategory);
             await _db.SaveChangesAsync();
 
-            return newCategory;
+            return CategorySingleResponse.fromEntity(newCategory);
         }
 
-        public async Task<Category?> deleteCategory(int categoryId)
+        public async Task<CategorySingleResponse?> deleteCategory(int categoryId)
         {
             var category = await _db.categories.FindAsync(categoryId);
 
-            if (category == null) {
+            if (category == null)
+            {
                 throw new HttpException(404, "Category not found");
             }
 
@@ -50,10 +51,10 @@ namespace invetario_api.Modules.categories
 
             await _db.SaveChangesAsync();
 
-            return category;
+            return CategorySingleResponse.fromEntity(category);
         }
 
-        public async Task<Category?> getCategoryById(int categoryId)
+        public async Task<CategorySingleResponse?> getCategoryById(int categoryId)
         {
             var findCategory = await _db.categories.FindAsync(categoryId);
 
@@ -62,10 +63,10 @@ namespace invetario_api.Modules.categories
                 throw new HttpException(404, "Category not found");
             }
 
-            return findCategory;
+            return CategorySingleResponse.fromEntity(findCategory);
         }
 
-        public async Task<Category?> updateCategory(int categoryId, UpdateCategoryDto data)
+        public async Task<CategorySingleResponse?> updateCategory(int categoryId, UpdateCategoryDto data)
         {
             var findCategory = await _db.categories.FindAsync(categoryId);
 
@@ -80,7 +81,7 @@ namespace invetario_api.Modules.categories
 
             await _db.SaveChangesAsync();
 
-            return findCategory;
+            return CategorySingleResponse.fromEntity(findCategory);
         }
     }
 }
