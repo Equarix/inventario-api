@@ -44,5 +44,21 @@ namespace invetario_api.Modules.entryorder
             return Ok(result);
         }
 
+        [HttpPost("{entryorderId:int}/complete")]
+        [Authorize]
+        public async Task<IActionResult> Complete(int entryorderId)
+        {
+            var result = await _entryorderService.completeEntryorder(entryorderId);
+            return Ok(result);
+        }
+
+        [HttpDelete("{entryorderId:int}/cancel")
+        ]
+        [Authorize]
+        public async Task<IActionResult> Cancel(int entryorderId)
+        {
+            var result = await _entryorderService.cancelEntryorder(entryorderId);
+            return Ok(result);
+        }
     }
 }

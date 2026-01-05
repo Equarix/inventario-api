@@ -2,6 +2,7 @@ using invetario_api.database;
 using invetario_api.Exceptions;
 using invetario_api.Modules.entryorder.dto;
 using invetario_api.Modules.entryorder.entity;
+using invetario_api.Modules.entryorder.enums;
 using invetario_api.Modules.entryorder.response;
 using invetario_api.utils;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -19,14 +20,57 @@ namespace invetario_api.Modules.entryorder
             _db = db;
         }
 
-        public Task<EntryOrderResponse?> cancelEntryorder(int entryorderId)
+        public async Task<EntryOrderResponse?> cancelEntryorder(int entryorderId)
         {
-            throw new NotImplementedException();
+            var entryorder = await _db.entryorders
+                .Where(e => e.entryOrderId == entryorderId)
+                .Include(e => e.provider)
+                .Include(e => e.store)
+                    .ThenInclude(s => s.user)
+                .Include(e => e.entryOrderDetails)
+                .ThenInclude(d => d.product).ThenInclude(p => p.category)
+                .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.unit)
+                .FirstOrDefaultAsync();
+
+            if (entryorder == null)
+            {
+                throw new HttpException(404, "Entryorder not found");
+            }
+
+            entryorder.entryOrderStatus = EntryOrderStatus.CANCELLED;
+            await _db.SaveChangesAsync();
+            return EntryOrderResponse.fromEntity(entryorder);
         }
 
-        public Task<EntryOrderResponse?> completeEntryorder(int entryorderId)
+        public async Task<EntryOrderResponse?> completeEntryorder(int entryorderId)
         {
-            throw new NotImplementedException();
+            var entryorder = await _db.entryorders
+                .Where(e => e.entryOrderId == entryorderId)
+                .Include(e => e.provider)
+                .Include(e => e.store)
+                    .ThenInclude(s => s.user)
+                .Include(e => e.entryOrderDetails)
+                .ThenInclude(d => d.product).ThenInclude(p => p.category)
+                .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.unit)
+                .FirstOrDefaultAsync();
+
+            if (entryorder == null)
+            {
+                throw new HttpException(404, "Entryorder not found");
+            }
+
+            entryorder.entryOrderStatus = EntryOrderStatus.COMPLETED;
+
+            foreach (var detail in entryorder.entryOrderDetails)
+            {
+                var productStore = await _db.productStores.FirstOrDefaultAsync(ps => ps.productId == detail.productId && ps.storeId == entryorder.storeId);
+                if (productStore != null)
+                {
+                    productStore.actualStock += detail.quantity;
+                }
+            }
+            await _db.SaveChangesAsync();
+            return EntryOrderResponse.fromEntity(entryorder);
         }
 
         public async Task<EntryOrderResponse> createEntryorder(EntryorderDto data)
