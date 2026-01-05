@@ -10,6 +10,7 @@ using invetario_api.Modules.provider.entity;
 using invetario_api.Modules.client.entity;
 using invetario_api.Modules.entryorder.entity;
 using invetario_api.Modules.images.entity;
+using invetario_api.Modules.departureorder.entity;
 namespace invetario_api.database
 {
     public class Database : DbContext
@@ -35,6 +36,10 @@ namespace invetario_api.database
         public DbSet<EntryOrderDetail> entryOrderDetails { get; set; }
 
         public DbSet<Images> images { get; set; }
+
+        public DbSet<Departureorder> departureorders { get; set; }
+
+        public DbSet<DepartureOrderDetail> departureOrderDetails { get; set; }
 
         public Database(DbContextOptions<Database> options) : base(options) { }
 

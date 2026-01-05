@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Modules\departureorder\enums\" />
     <Folder Include="Modules\entryorder\response\" />
     <Folder Include="Modules\images\response\" />
     <Folder Include="Modules\provider\response\" />

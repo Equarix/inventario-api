@@ -226,6 +226,51 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
   - Consumo interno
   - Merma
 
+  | Atributo                    | Tipo de Dato (SQL Server)       | Requerido | Descripción                                 |
+  | --------------------------- | ------------------------------- | --------- | ------------------------------------------- |
+  | **OrdenSalidaId**           | INT IDENTITY / UNIQUEIDENTIFIER | Sí        | Identificador único                         |
+  | **NumeroOrdenSalida**       | VARCHAR(30)                     | Sí        | Correlativo del documento                   |
+  | **TipoSalida**              | VARCHAR(30)                     | Sí        | Venta, ConsumoInterno, Merma, Transferencia |
+  | **ClienteId**               | INT                             | No        | Cliente (si es venta)                       |
+  | **FechaSalida**             | DATETIME                        | Sí        | Fecha del movimiento                        |
+  | **FechaRegistro**           | DATETIME                        | Sí        | Fecha en sistema                            |
+  | **MotivoSalida**            | VARCHAR(150)                    | No        | Motivo o referencia                         |
+  | **DocumentoReferencia**     | VARCHAR(50)                     | No        | Factura, pedido, OT                         |
+  | **EstadoOrdenSalida**       | VARCHAR(20)                     | Sí        | Pendiente, Confirmada, Anulada              |
+  | **Subtotal**                | DECIMAL(18,2)                   | No        | Subtotal (si aplica)                        |
+  | **Impuesto**                | DECIMAL(18,2)                   | No        | IGV / IVA                                   |
+  | **Total**                   | DECIMAL(18,2)                   | No        | Total                                       |
+  | **Observaciones**           | VARCHAR(MAX)                    | No        | Comentarios                                 |
+  | **Activo**                  | BIT                             | Sí        | Registro activo                             |
+  | **CreadoPorUsuarioId**      | INT                             | Sí        | Usuario creador                             |
+  | **ActualizadoPorUsuarioId** | INT                             | No        | Usuario editor                              |
+
+  - Detalle de Venta
+
+    | Atributo                    | Tipo de Dato (SQL Server)       | Requerido | Descripción                    |
+    | --------------------------- | ------------------------------- | --------- | ------------------------------ |
+    | **OrdenSalidaDetalleId**    | INT IDENTITY / UNIQUEIDENTIFIER | Sí        | Identificador único            |
+    | **OrdenSalidaId**           | INT                             | Sí        | Cabecera de la orden           |
+    | **AlmacenId**               | INT                             | Sí        | Almacén origen del producto    |
+    | **ProductoId**              | INT                             | Sí        | Producto despachado            |
+    | **UnidadMedida**            | VARCHAR(20)                     | Sí        | UND, KG, LT                    |
+    | **CantidadSolicitada**      | DECIMAL(18,4)                   | Sí        | Cantidad solicitada            |
+    | **CantidadDespachada**      | DECIMAL(18,4)                   | No        | Cantidad real despachada       |
+    | **CostoUnitario**           | DECIMAL(18,4)                   | No        | Costo para valorización        |
+    | **PrecioUnitario**          | DECIMAL(18,4)                   | No        | Precio de venta (si aplica)    |
+    | **Subtotal**                | DECIMAL(18,2)                   | No        | Cantidad × Precio              |
+    | **Impuesto**                | DECIMAL(18,2)                   | No        | IGV / IVA                      |
+    | **Total**                   | DECIMAL(18,2)                   | No        | Total del ítem                 |
+    | **Lote**                    | VARCHAR(50)                     | No        | Lote del producto              |
+    | **FechaVencimiento**        | DATE                            | No        | Fecha de vencimiento           |
+    | **EstadoDetalle**           | VARCHAR(20)                     | Sí        | Pendiente, Despachado, Anulado |
+    | **Observaciones**           | VARCHAR(MAX)                    | No        | Comentarios                    |
+    | **Activo**                  | BIT                             | Sí        | Registro activo                |
+    | **FechaCreacion**           | DATETIME                        | Sí        | Auditoría                      |
+    | **FechaActualizacion**      | DATETIME                        | No        | Auditoría                      |
+    | **CreadoPorUsuarioId**      | INT                             | Sí        | Usuario creador                |
+    | **ActualizadoPorUsuarioId** | INT                             | No        | Usuario editor                 |
+
 ---
 
 ### RF-11 Validación de Stock
