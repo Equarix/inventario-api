@@ -158,9 +158,9 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 - El sistema debe permitir:
 
-  - Registrar órdenes de entrada (compras)
-  - Asociar proveedor
-  - Registrar múltiples productos por orden
+  - Registrar órdenes de entrada (compras) [X]
+  - Asociar proveedor [X]
+  - Registrar múltiples productos por orden [X]
 
   | Atributo                    | Tipo de Dato (SQL Server)       | Requerido | Descripción                      |
   | --------------------------- | ------------------------------- | --------- | -------------------------------- |
@@ -204,9 +204,9 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 
 - Al confirmar una orden:
 
-  - Se incrementa el stock
+  - Se incrementa el stock [X]
   - Se generan movimientos de inventario
-  - La orden queda en estado **Confirmada**
+  - La orden queda en estado **Confirmada** [X]
 
 - Estados:
 
