@@ -83,7 +83,7 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 - El sistema debe permitir:
 
   - Crear múltiples almacenes [X]
-  - Asignar productos a almacenes
+  - Asignar productos a almacenes [X]
 
 | Atributo                        | Tipo / Formato | Descripción                                  |
 | ------------------------------- | -------------- | -------------------------------------------- |
@@ -246,11 +246,51 @@ Te dejo los **requerimientos funcionales completos** de un **Sistema de Inventar
 - Crear, editar, desactivar clientes
 - Datos básicos (nombre, documento, contacto)
 
+| Atributo                    | Tipo de Dato (SQL Server)       | Requerido | Descripción                     |
+| --------------------------- | ------------------------------- | --------- | ------------------------------- |
+| **ClienteId**               | INT IDENTITY / UNIQUEIDENTIFIER | Sí        | Identificador único del cliente |
+| **CodigoCliente**           | VARCHAR(20)                     | Sí        | Código interno del cliente      |
+| **TipoCliente**             | VARCHAR(30)                     | Sí        | Natural / Empresa               |
+| **RazonSocial**             | VARCHAR(150)                    | Sí        | Nombre legal o razón social     |
+| **NombreComercial**         | VARCHAR(150)                    | No        | Nombre comercial                |
+| **TipoDocumento**           | VARCHAR(20)                     | Sí        | DNI, RUC, Pasaporte             |
+| **NumeroDocumento**         | VARCHAR(20)                     | Sí        | Documento fiscal                |
+| **Telefono**                | VARCHAR(30)                     | No        | Teléfono principal              |
+| **Email**                   | VARCHAR(150)                    | No        | Correo principal                |
+| **Activo**                  | BIT                             | Sí        | Cliente activo/inactivo         |
+| **Observaciones**           | VARCHAR(MAX)                    | No        | Notas internas                  |
+| **FechaCreacion**           | DATETIME                        | Sí        | Fecha de registro               |
+| **FechaActualizacion**      | DATETIME                        | No        | Última modificación             |
+| **CreadoPorUsuarioId**      | INT                             | Sí        | Usuario creador                 |
+| **ActualizadoPorUsuarioId** | INT                             | No        | Usuario editor                  |
+
 ---
 
 ### RF-16 Gestión de Proveedores
 
-- Crear, editar, desactivar proveedores
+- Crear, editar, desactivar proveedores [X]
+
+| Atributo                    | Tipo de Dato (SQL Server)       | Requerido | Descripción                       |
+| --------------------------- | ------------------------------- | --------- | --------------------------------- |
+| **ProveedorId**             | INT IDENTITY / UNIQUEIDENTIFIER | Sí        | Identificador único del proveedor |
+| **CodigoProveedor**         | VARCHAR(20)                     | Sí        | Código interno del proveedor      |
+| **RazonSocial**             | VARCHAR(150)                    | Sí        | Nombre legal del proveedor        |
+| **NombreComercial**         | VARCHAR(150)                    | No        | Nombre comercial                  |
+| **TipoDocumento**           | VARCHAR(20)                     | Sí        | RUC, DNI, Pasaporte               |
+| **NumeroDocumento**         | VARCHAR(20)                     | Sí        | Número de documento fiscal        |
+| **Telefono**                | VARCHAR(30)                     | No        | Teléfono principal                |
+| **Email**                   | VARCHAR(150)                    | No        | Correo principal                  |
+| **ContactoPrincipal**       | VARCHAR(150)                    | No        | Persona de contacto               |
+| **TelefonoContacto**        | VARCHAR(30)                     | No        | Teléfono del contacto             |
+| **CondicionPago**           | VARCHAR(50)                     | Sí        | Contado, Crédito 30/60 días       |
+| **Moneda**                  | VARCHAR(10)                     | Sí        | Moneda de operación               |
+| **PlazoEntregaDias**        | INT                             | No        | Días promedio de entrega          |
+| **Activo**                  | BIT                             | Sí        | Proveedor activo/inactivo         |
+| **Observaciones**           | VARCHAR(MAX)                    | No        | Notas internas                    |
+| **FechaCreacion**           | DATETIME                        | Sí        | Fecha de creación                 |
+| **FechaActualizacion**      | DATETIME                        | No        | Última modificación               |
+| **CreadoPorUsuarioId**      | INT                             | Sí        | Usuario que creó el registro      |
+| **ActualizadoPorUsuarioId** | INT                             | No        | Usuario que actualizó             |
 
 ---
 

@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 using invetario_api.Modules.store.entity;
+using invetario_api.Modules.provider.entity;
 namespace invetario_api.database
 {
     public class Database : DbContext
     {
-        public DbSet<User> users {  get; set; }
+        public DbSet<User> users { get; set; }
         public DbSet<Category> categories { get; set; }
 
         public DbSet<Unit> units { get; set; }
@@ -22,7 +23,10 @@ namespace invetario_api.database
 
         public DbSet<ProductStore> productStores { get; set; }
 
-        public Database(DbContextOptions<Database> options): base(options) { }
+        public DbSet<Provider> providers { get; set; }
+
+
+        public Database(DbContextOptions<Database> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

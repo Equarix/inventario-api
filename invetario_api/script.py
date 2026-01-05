@@ -159,32 +159,37 @@ namespace invetario_api.Modules.{name}
         [HttpGet]
         public async Task<IActionResult> FindAll() 
         {{
-            throw new NotImplementedException();
+            var result = await _{name}Service.get{name.capitalize()}s();
+            return Ok(result);
         }}
         
         [HttpGet("{{{name}Id:int}}")]
         public async Task<IActionResult> FindById(int {name}Id) 
         {{
-            throw new NotImplementedException();
+            var result = await _{name}Service.get{name.capitalize()}ById({name}Id);
+            return Ok(result);
         }}
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] {name.capitalize()}Dto data)
         {{
-            throw new NotImplementedException();
+            var result = await _{name}Service.create{name.capitalize()}(data);
+            return Ok(result);
         }}
 
         [HttpPut("{{{name}Id:int}}")]
         public async Task<IActionResult> update(int {name}Id, [FromBody] Update{name.capitalize()}Dto data)
         {{            
-            throw new NotImplementedException();
+            var result = await _{name}Service.update{name.capitalize()}({name}Id, data);
+            return Ok(result);
         }}
 
 
         [HttpDelete("{{{name}Id:int}}")]
         public async Task<IActionResult> delete(int {name}Id)
         {{
-            throw new NotImplementedException();
+            var result = await _{name}Service.delete{name.capitalize()}({name}Id);
+            return Ok(result);
         }}
     }}
 }}

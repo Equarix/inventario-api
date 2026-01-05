@@ -13,6 +13,7 @@ using invetario_api.Modules.auth;
 using invetario_api.Modules.users;
 using invetario_api.Modules.store;
 using invetario_api.Modules.products;
+using invetario_api.Modules.provider;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -39,6 +40,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddScoped<IProviderService, ProviderService>();
+
 
 builder.Services.Configure<ApiBehaviorOptions>(opt =>
 {
