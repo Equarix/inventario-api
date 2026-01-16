@@ -133,6 +133,7 @@ namespace invetario_api.Modules.store
                 .Where(p => p.productId == data.productId && p.status == true)
                 .Include(p => p.category)
                 .Include(p => p.unit)
+                .Include(p => p.image)
                 .FirstOrDefaultAsync();
 
             if (findProduct == null)
@@ -188,6 +189,7 @@ namespace invetario_api.Modules.store
                 .Where(p => p.productId == data.productId)
                 .Include(p => p.category)
                 .Include(p => p.unit)
+                .Include(p => p.image)
                 .FirstOrDefaultAsync();
 
             if (findProduct == null)
@@ -205,6 +207,12 @@ namespace invetario_api.Modules.store
 
             var productStore = await _db.productStores
                 .Where(ps => ps.productStoreId == productStoreId && ps.storeId == storeId)
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.category)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.unit)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.image)
                 .FirstOrDefaultAsync();
 
             if (productStore == null)
@@ -237,6 +245,8 @@ namespace invetario_api.Modules.store
                     .ThenInclude(p => p.category)
                     .Include(ps => ps.product)
                     .ThenInclude(p => p.unit)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.image)
                 .FirstOrDefaultAsync();
 
             if (productStore == null)
@@ -252,11 +262,14 @@ namespace invetario_api.Modules.store
 
         public async Task<List<StoreProductResponse>> getProductsByStore(int storeId)
         {
+            Console.WriteLine("Fetching products for store ID: " + storeId);
             var storeProducts = await _db.productStores
                 .Include(ps => ps.product)
                     .ThenInclude(p => p.category)
                     .Include(ps => ps.product)
                     .ThenInclude(p => p.unit)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.image)
                 .Where(ps => ps.storeId == storeId)
                 .ToListAsync();
 
