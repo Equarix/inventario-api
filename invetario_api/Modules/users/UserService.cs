@@ -4,6 +4,7 @@ using invetario_api.Exceptions;
 using invetario_api.Jwt;
 using invetario_api.Modules.users.dto;
 using invetario_api.Modules.users.entity;
+using invetario_api.Modules.users.response;
 using Microsoft.EntityFrameworkCore;
 
 namespace invetario_api.Modules.users
@@ -17,7 +18,7 @@ namespace invetario_api.Modules.users
             _db = db;
         }
 
-        public async Task<User?> createUser(UserDto userDto)
+        public async Task<UserSingleResponse?> createUser(UserDto userDto)
         {
             var findEmail = _db.users.FirstOrDefault(u => u.email == userDto.email);
 
@@ -38,13 +39,14 @@ namespace invetario_api.Modules.users
             };
             await _db.users.AddAsync(newUser);
             await _db.SaveChangesAsync();
-            return newUser;
+            return UserSingleResponse.fromEntity(newUser);
         }
 
 
-        public async Task<List<User>> getUsers()
+        public async Task<List<UserSingleResponse>> getUsers()
         {
-            return await _db.users.ToListAsync();
+            var users = await _db.users.ToListAsync();
+            return UserSingleResponse.fromEntityList(users);
         }
     }
 }

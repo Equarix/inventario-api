@@ -25,5 +25,10 @@ namespace invetario_api.Modules.users.response
                 status = user.status
             };
         }
+
+        public static List<UserSingleResponse> fromEntityList(List<User> users)
+        {
+            return users.Select(user => fromEntity(user)).ToList();
+        }
     }
 }

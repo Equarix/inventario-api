@@ -1,12 +1,12 @@
 ﻿using invetario_api.Modules.users.dto;
-using invetario_api.Modules.users.entity;
+using invetario_api.Modules.users.response;
 
 namespace invetario_api.Modules.users
 {
     public interface IUserService
     {
-        public Task<User?> createUser(UserDto userDto);
+        public Task<UserSingleResponse?> createUser(UserDto userDto);
 
-        public Task<List<User>> getUsers();
+        public Task<List<UserSingleResponse>> getUsers();
     }
 }

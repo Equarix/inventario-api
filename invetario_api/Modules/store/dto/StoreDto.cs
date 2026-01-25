@@ -28,7 +28,6 @@ namespace invetario_api.Modules.store.dto
         [Range(1, int.MaxValue)]
         public int userId { get; set; }
 
-        [Required]
         public string observations { get; set; }
 
         [Required]
