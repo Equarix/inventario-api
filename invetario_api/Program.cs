@@ -75,7 +75,7 @@ builder.Services.Configure<ApiBehaviorOptions>(opt =>
 
 
 builder.Services.AddSingleton<JwtUtils>();
-
+builder.Services.AddHostedService<AuthServiceInit>();
 
 builder.Services.AddAuthentication(
     opt =>

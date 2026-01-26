@@ -9,5 +9,6 @@ namespace invetario_api.Modules.auth
     public interface IAuthService
     {
         public Task<LoginResponse?> login(LoginDto loginDto);
+        public Task registerAdmin();
     }
 }
