@@ -69,6 +69,7 @@ namespace invetario_api.Modules.products
             var findProduct = await _db.products
                 .Include(p => p.category)
                 .Include(p => p.unit)
+                .Include(p => p.image)
                 .Where(p => p.productId == productId)
                 .FirstOrDefaultAsync();
             if (findProduct == null)
@@ -86,6 +87,7 @@ namespace invetario_api.Modules.products
             var findProduct = await _db.products
                 .Include(p => p.category)
                 .Include(p => p.unit)
+                .Include(p => p.image)
                 .Where(p => p.productId == productId)
                 .FirstOrDefaultAsync();
             if (findProduct == null)

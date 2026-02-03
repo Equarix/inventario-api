@@ -16,8 +16,6 @@ namespace invetario_api.Modules.products.dto
         [MinLength(1)]
         public string name { get; set; }
 
-        [Required]
-        [MinLength(1)]
         public string description { get; set; }
 
         [Required]
