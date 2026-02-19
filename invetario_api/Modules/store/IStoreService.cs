@@ -26,5 +26,6 @@ namespace invetario_api.Modules.store
         Task<StoreProductResponse> removeProductFromStore(int storeId, int productStoreId);
 
         Task<List<StoreProductResponse>> getProductsByStore(int storeId);
+        Task<StoreProductResponse?> getStoreProductById(int storeId, int productStoreId);
     }
 }

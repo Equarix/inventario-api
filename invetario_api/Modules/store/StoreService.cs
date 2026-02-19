@@ -118,6 +118,26 @@ namespace invetario_api.Modules.store
             return StoreResponse.fromEntity(store);
         }
 
+        public async Task<StoreProductResponse?> getStoreProductById(int storeId, int productStoreId)
+        {
+            var productStore = await _db.productStores
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.category)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.unit)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.image)
+                .Where(ps => ps.storeId == storeId && ps.productStoreId == productStoreId && ps.status == true)
+                .FirstOrDefaultAsync();
+
+            if (productStore == null)
+            {
+                throw new HttpException(404, "Product in store not found");
+            }
+
+            return StoreProductResponse.fromEntity(productStore);
+        }
+
         public async Task<StoreProductResponse?> addProductToStore(int storeId, StoreProductDto data)
         {
             var findStore = await _db.stores
@@ -197,14 +217,6 @@ namespace invetario_api.Modules.store
                 throw new HttpException(404, "Product not found");
             }
 
-            var findProductStore = await _db.productStores
-                .Where(ps => ps.storeId == storeId && ps.productId == data.productId && ps.status == true).FirstOrDefaultAsync();
-
-            if (findProductStore != null)
-            {
-                throw new HttpException(400, "Product already exists in store");
-            }
-
             var productStore = await _db.productStores
                 .Where(ps => ps.productStoreId == productStoreId && ps.storeId == storeId)
                 .Include(ps => ps.product)
@@ -220,7 +232,6 @@ namespace invetario_api.Modules.store
                 throw new HttpException(404, "Product in store not found");
             }
 
-            productStore.productId = data.productId;
             productStore.actualStock = data.actualStock;
             productStore.reservedStock = data.reservedStock;
             productStore.availableStock = data.availableStock;

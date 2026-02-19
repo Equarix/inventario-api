@@ -45,6 +45,14 @@ namespace invetario_api.Modules.store
             return Ok(result);
         }
 
+        [HttpGet("{storeId:int}/products/{productStoreId:int}")]
+        [Authorize(Roles = "ADMIN, STORE")]
+        public async Task<IActionResult> GetProductById(int storeId, int productStoreId)
+        {
+            var result = await _storeService.getStoreProductById(storeId, productStoreId);
+            return Ok(result);
+        }
+
         [HttpPost("{storeId:int}/products")]
         [Authorize(Roles = "ADMIN, STORE")]
         public async Task<IActionResult> AddProductToStore(int storeId, [FromBody] StoreProductDto data)
