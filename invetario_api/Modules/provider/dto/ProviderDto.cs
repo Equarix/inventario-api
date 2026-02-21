@@ -20,14 +20,11 @@ namespace invetario_api.Modules.provider.dto
     [Required]
     [MinLength(1)]
     public string documentNumber { get; set; }
-    [Required]
-    [MinLength(1)]
     public string address { get; set; }
     [Required]
     [MinLength(1)]
     public string phone { get; set; }
-    [Required]
-    [MinLength(1)]
+
     [EmailAddress]
     public string email { get; set; }
     [Required]

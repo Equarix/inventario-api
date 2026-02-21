@@ -2,6 +2,7 @@ using invetario_api.database;
 using invetario_api.Exceptions;
 using invetario_api.Modules.client.dto;
 using invetario_api.Modules.client.entity;
+using invetario_api.Modules.client.response;
 using invetario_api.utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +19,13 @@ namespace invetario_api.Modules.client
             _db = db;
         }
 
-        public async Task<List<Client>> getClients()
+        public async Task<List<ClientResponseSingle>> getClients()
         {
-            return await _db.clients.ToListAsync();
+            var clients = await _db.clients.ToListAsync();
+            return ClientResponseSingle.fromEntityList(clients);
         }
 
-        public async Task<Client> createClient(ClientDto data)
+        public async Task<ClientResponseSingle> createClient(ClientDto data)
         {
             var newClient = new Client
             {
@@ -38,10 +40,10 @@ namespace invetario_api.Modules.client
             _db.clients.Add(newClient);
             await _db.SaveChangesAsync();
 
-            return newClient;
+            return ClientResponseSingle.fromEntity(newClient);
         }
 
-        public async Task<Client?> deleteClient(int clientId)
+        public async Task<ClientResponseSingle?> deleteClient(int clientId)
         {
             var findClient = await _db.clients.Where(c => c.clientId == clientId).FirstOrDefaultAsync();
             if (findClient == null)
@@ -51,10 +53,10 @@ namespace invetario_api.Modules.client
 
             findClient.status = false;
             await _db.SaveChangesAsync();
-            return findClient;
+            return ClientResponseSingle.fromEntity(findClient);
         }
 
-        public async Task<Client?> getClientById(int clientId)
+        public async Task<ClientResponseSingle?> getClientById(int clientId)
         {
             var findClient = await _db.clients.Where(c => c.clientId == clientId).FirstOrDefaultAsync();
             if (findClient == null)
@@ -62,10 +64,10 @@ namespace invetario_api.Modules.client
                 throw new HttpException(404, "Client not found");
             }
 
-            return findClient;
+            return ClientResponseSingle.fromEntity(findClient);
         }
 
-        public async Task<Client?> updateClient(int clientId, UpdateClientDto data)
+        public async Task<ClientResponseSingle?> updateClient(int clientId, UpdateClientDto data)
         {
             var findClient = await _db.clients.Where(c => c.clientId == clientId).FirstOrDefaultAsync();
             if (findClient == null)
@@ -81,7 +83,7 @@ namespace invetario_api.Modules.client
             findClient.email = data.email;
             findClient.status = data.status.Value;
             await _db.SaveChangesAsync();
-            return findClient;
+            return ClientResponseSingle.fromEntity(findClient);
         }
     }
 }

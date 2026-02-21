@@ -22,7 +22,6 @@ namespace invetario_api.Modules.client.dto
     [Required]
     [MinLength(9)]
     public string phone { get; set; }
-    [Required]
     public string email { get; set; } = string.Empty;
 
   }

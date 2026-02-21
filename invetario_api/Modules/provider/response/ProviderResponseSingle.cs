@@ -17,6 +17,7 @@ public class ProviderResponseSingle
     public string mainContact { get; set; }
     public string contactPhone { get; set; }
     public string payCondition { get; set; }
+    public PayCondition payConditionId { get; set; }
     public string typeMoney { get; set; }
     public int daysDelivery { get; set; }
     public bool status { get; set; } = true;
@@ -38,6 +39,7 @@ public class ProviderResponseSingle
             mainContact = provider.mainContact,
             contactPhone = provider.contactPhone,
             payCondition = provider.payCondition.ToString(),
+            payConditionId = provider.payCondition,
             typeMoney = provider.typeMoney,
             daysDelivery = provider.daysDelivery,
             status = provider.status,
