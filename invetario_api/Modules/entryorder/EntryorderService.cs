@@ -30,6 +30,7 @@ namespace invetario_api.Modules.entryorder
                 .Include(e => e.entryOrderDetails)
                 .ThenInclude(d => d.product).ThenInclude(p => p.category)
                 .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.unit)
+                .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.image)
                 .FirstOrDefaultAsync();
 
             if (entryorder == null)
@@ -52,6 +53,7 @@ namespace invetario_api.Modules.entryorder
                 .Include(e => e.entryOrderDetails)
                 .ThenInclude(d => d.product).ThenInclude(p => p.category)
                 .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.unit)
+                .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.image)
                 .FirstOrDefaultAsync();
 
             if (entryorder == null)
@@ -107,7 +109,8 @@ namespace invetario_api.Modules.entryorder
 
             foreach (var detail in data.entryOrderDetails)
             {
-                var product = await _db.products.Include(p => p.category).Include(p => p.unit).FirstOrDefaultAsync(p => p.productId == detail.productId);
+                var product = await _db.products.Include(p => p.category).Include(p => p.unit)
+                                    .Include(p => p.image).FirstOrDefaultAsync(p => p.productId == detail.productId);
 
                 if (product == null)
                 {
@@ -165,6 +168,7 @@ namespace invetario_api.Modules.entryorder
                 .Include(e => e.entryOrderDetails)
                 .ThenInclude(d => d.product).ThenInclude(p => p.category)
                 .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.unit)
+                .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.image)
                 .ToListAsync();
             return EntryOrderResponse.fromEntityList(entryorder);
         }
