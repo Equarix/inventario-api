@@ -24,6 +24,14 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("store-available/{storeId:int}")]
+    [Authorize]
+    public async Task<IActionResult> FindByStoreId(int storeId)
+    {
+        var result = await _productService.getProudctsByStoreId(storeId);
+        return Ok(result);
+    }
+
     [HttpGet("{productId:int}")]
     [Authorize]
     public async Task<IActionResult> FindById(int productId)

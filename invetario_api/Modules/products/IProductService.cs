@@ -9,6 +9,8 @@ namespace invetario_api.Modules.products
 
         Task<ProductResponse?> getProductById(int productId);
 
+        Task<List<ProductResponse>> getProudctsByStoreId(int storeId);
+
         Task<ProductResponse?> createProduct(ProductDto product);
 
         Task<ProductResponse?> updateProduct(int productId, UpdateProductDto product);

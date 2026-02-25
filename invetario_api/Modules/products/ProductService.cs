@@ -108,6 +108,27 @@ namespace invetario_api.Modules.products
             return ProductResponse.fromEntityList(products);
         }
 
+        public async Task<List<ProductResponse>> getProudctsByStoreId(int storeId)
+        {
+            var findStore = await _db.stores.Where(s => s.storeId == storeId).FirstOrDefaultAsync();
+
+            if (findStore == null)
+            {
+                throw new HttpException(404, "Store not found");
+            }
+
+            var products = await _db.productStores.Where(ps => ps.storeId == storeId && ps.status)
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.category)
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.unit)
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.image)
+                .ToListAsync();
+            var productsResponse = products.Select(ps => ProductResponse.fromEntity(ps.product)).ToList();
+            return productsResponse;
+        }
+
         public async Task<ProductResponse?> updateProduct(int productId, UpdateProductDto product)
         {
             var findProductTask = await _db.products

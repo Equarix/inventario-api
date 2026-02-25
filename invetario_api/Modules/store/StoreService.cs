@@ -127,7 +127,7 @@ namespace invetario_api.Modules.store
                     .ThenInclude(p => p.unit)
                     .Include(ps => ps.product)
                     .ThenInclude(p => p.image)
-                .Where(ps => ps.storeId == storeId && ps.productStoreId == productStoreId && ps.status == true)
+                .Where(ps => ps.storeId == storeId && ps.productStoreId == productStoreId)
                 .FirstOrDefaultAsync();
 
             if (productStore == null)
