@@ -172,5 +172,20 @@ namespace invetario_api.Modules.entryorder
                 .ToListAsync();
             return EntryOrderResponse.fromEntityList(entryorder);
         }
+
+        public async Task<List<EntryOrderResponse>> getPendingEntryorder()
+        {
+            var entryOrder = await _db.entryorders
+                .Where(e => e.entryOrderStatus == EntryOrderStatus.PENDING)
+                .Include(e => e.provider)
+                .Include(e => e.store)
+                    .ThenInclude(s => s.user)
+                .Include(e => e.entryOrderDetails)
+                .ThenInclude(d => d.product).ThenInclude(p => p.category)
+                .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.unit)
+                .Include(e => e.entryOrderDetails).ThenInclude(d => d.product).ThenInclude(p => p.image)
+                .ToListAsync();
+            return EntryOrderResponse.fromEntityList(entryOrder);
+        }
     }
 }

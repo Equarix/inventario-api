@@ -23,9 +23,6 @@ namespace invetario_api.Modules.products.entity
 
         public int actualStock { get; set; }
 
-        public int reservedStock { get; set; }
-
-        public int availableStock { get; set; }
 
         public int minStock { get; set; }
 

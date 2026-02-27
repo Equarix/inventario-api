@@ -175,8 +175,6 @@ namespace invetario_api.Modules.store
                 productId = data.productId,
                 storeId = storeId,
                 actualStock = data.actualStock,
-                reservedStock = data.reservedStock,
-                availableStock = data.availableStock,
                 minStock = data.minStock,
                 maxStock = data.maxStock,
                 avgCost = data.avgCost,
@@ -233,8 +231,6 @@ namespace invetario_api.Modules.store
             }
 
             productStore.actualStock = data.actualStock;
-            productStore.reservedStock = data.reservedStock;
-            productStore.availableStock = data.availableStock;
             productStore.minStock = data.minStock;
             productStore.maxStock = data.maxStock;
             productStore.avgCost = data.avgCost;

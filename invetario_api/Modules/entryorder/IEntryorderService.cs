@@ -17,5 +17,7 @@ namespace invetario_api.Modules.entryorder
 
         Task<EntryOrderResponse?> completeEntryorder(int entryorderId);
         Task<EntryOrderResponse?> cancelEntryorder(int entryorderId);
+
+        Task<List<EntryOrderResponse>> getPendingEntryorder();
     }
 }

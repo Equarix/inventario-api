@@ -12,10 +12,6 @@ public class StoreProductResponse
 
     public int actualStock { get; set; }
 
-    public int reservedStock { get; set; }
-
-    public int availableStock { get; set; }
-
     public int minStock { get; set; }
 
     public int maxStock { get; set; }
@@ -37,8 +33,6 @@ public class StoreProductResponse
             productStoreId = storeProduct.productStoreId,
             product = ProductResponse.fromEntity(storeProduct.product),
             actualStock = storeProduct.actualStock,
-            reservedStock = storeProduct.reservedStock,
-            availableStock = storeProduct.availableStock,
             minStock = storeProduct.minStock,
             maxStock = storeProduct.maxStock,
             avgCost = storeProduct.avgCost,

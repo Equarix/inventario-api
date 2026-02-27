@@ -28,6 +28,14 @@ namespace invetario_api.Modules.entryorder
             return Ok(result);
         }
 
+        [HttpGet("pending")]
+        [Authorize]
+        public async Task<IActionResult> getPendingEntryorders()
+        {
+            var result = await _entryorderService.getPendingEntryorder();
+            return Ok(result);
+        }
+
         [HttpGet("{entryorderId:int}")]
         [Authorize]
         public async Task<IActionResult> FindById(int entryorderId)
