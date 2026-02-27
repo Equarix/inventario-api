@@ -19,6 +19,9 @@ using invetario_api.Modules.entryorder;
 using invetario_api.Modules.images;
 using Microsoft.Extensions.FileProviders;
 using invetario_api.Modules.departureorder;
+using invetario_api.Modules.box;
+using invetario_api.Modules.users.current_user;
+using invetario_api.Modules.payMethod;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -57,6 +60,10 @@ builder.Services.AddScoped<IEntryorderService, EntryorderService>();
 builder.Services.AddScoped<IImagesService, ImagesService>();
 
 builder.Services.AddScoped<IDepartureorderService, DepartureorderService>();
+
+builder.Services.AddScoped<IBoxService, BoxService>();
+
+builder.Services.AddScoped<IPaymethodService, PaymethodService>();
 
 builder.Services.Configure<ApiBehaviorOptions>(opt =>
 {
@@ -122,6 +129,9 @@ builder.Services.AddAuthentication(
         }
     };
 });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddCors(opt =>
 {
