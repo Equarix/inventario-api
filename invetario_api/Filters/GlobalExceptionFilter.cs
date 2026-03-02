@@ -15,6 +15,9 @@ namespace invetario_api.Filters
                 _ => 500
             };
 
+
+            Console.WriteLine(context.Exception);
+
             var message = context.Exception.Message;
 
             context.Result = new ObjectResult(

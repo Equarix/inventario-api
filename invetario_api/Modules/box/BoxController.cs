@@ -26,6 +26,13 @@ namespace invetario_api.Modules.box
             return Ok(result);
         }
 
+        [HttpGet("open")]
+        public async Task<IActionResult> FindOpenBoxByToken()
+        {
+            var result = await _boxService.getOpenBoxByToken();
+            return Ok(result);
+        }
+
         [HttpGet("{boxId:int}")]
         public async Task<IActionResult> FindById(int boxId)
         {

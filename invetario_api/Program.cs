@@ -22,6 +22,8 @@ using invetario_api.Modules.departureorder;
 using invetario_api.Modules.box;
 using invetario_api.Modules.users.current_user;
 using invetario_api.Modules.payMethod;
+using invetario_api.Modules.boxMove;
+using invetario_api.Modules.storeUser;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -64,6 +66,12 @@ builder.Services.AddScoped<IDepartureorderService, DepartureorderService>();
 builder.Services.AddScoped<IBoxService, BoxService>();
 
 builder.Services.AddScoped<IPaymethodService, PaymethodService>();
+
+builder.Services.AddScoped<IBoxmoveService, BoxmoveService>();
+
+
+
+builder.Services.AddScoped<IStoreuserService, StoreuserService>();
 
 builder.Services.Configure<ApiBehaviorOptions>(opt =>
 {

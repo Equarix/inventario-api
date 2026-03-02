@@ -84,7 +84,32 @@ namespace invetario_api.Modules.box
 
         public async Task<BoxResponse?> getBoxById(int boxId)
         {
-            throw new NotImplementedException();
+            var findBox = await _db.boxs.Where(b => b.boxId == boxId).Include(b => b.userActual).Include(b => b.userOpening).Include(b => b.userClosing).FirstOrDefaultAsync();
+
+            if (findBox == null)
+            {
+                throw new HttpException(404, "Box not found");
+            }
+
+            return BoxResponse.FromBoxEntity(findBox);
+        }
+
+        public async Task<BoxResponse?> getOpenBoxByToken()
+        {
+            var userId = this._currentUser.UserId;
+
+            var findBox = await _db.boxs.Where(b => b.userActualId == userId && b.userClosingId == null && b.isOpen == true)
+            .Include(b => b.userActual)
+            .Include(b => b.userOpening)
+            .Include(b => b.userClosing).FirstOrDefaultAsync();
+
+
+            if (findBox == null)
+            {
+                throw new HttpException(404, "Box not found");
+            }
+
+            return BoxResponse.FromBoxEntity(findBox);
         }
     }
 }

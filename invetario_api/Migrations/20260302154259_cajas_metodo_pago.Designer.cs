@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using invetario_api.database;
 
@@ -11,9 +12,11 @@ using invetario_api.database;
 namespace invetario_api.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20260302154259_cajas_metodo_pago")]
+    partial class cajas_metodo_pago
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -610,35 +613,6 @@ namespace invetario_api.Migrations
                     b.ToTable("Stores");
                 });
 
-            modelBuilder.Entity("invetario_api.Modules.storeUser.entity.Storeuser", b =>
-                {
-                    b.Property<int>("StoreUserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StoreUserId"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StoreId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("StoreUserId");
-
-                    b.HasIndex("StoreId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Storeusers");
-                });
-
             modelBuilder.Entity("invetario_api.Modules.unit.entity.Unit", b =>
                 {
                     b.Property<int>("unitId")
@@ -882,25 +856,6 @@ namespace invetario_api.Migrations
                         .IsRequired();
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("invetario_api.Modules.storeUser.entity.Storeuser", b =>
-                {
-                    b.HasOne("invetario_api.Modules.store.entity.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("invetario_api.Modules.users.entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Store");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("invetario_api.Modules.categories.entity.Category", b =>

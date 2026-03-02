@@ -16,5 +16,7 @@ namespace invetario_api.Modules.box
         Task<BoxResponse> openBox(BoxDto data);
 
         Task<BoxResponse?> closeBox(int boxId);
+
+        Task<BoxResponse?> getOpenBoxByToken();
     }
 }
