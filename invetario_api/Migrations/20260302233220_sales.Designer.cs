@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using invetario_api.database;
 
@@ -11,9 +12,11 @@ using invetario_api.database;
 namespace invetario_api.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20260302233220_sales")]
+    partial class sales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -579,9 +582,6 @@ namespace invetario_api.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("storeId")
-                        .HasColumnType("int");
-
                     b.Property<float>("total")
                         .HasColumnType("real");
 
@@ -591,8 +591,6 @@ namespace invetario_api.Migrations
                     b.HasKey("saleId");
 
                     b.HasIndex("clientId");
-
-                    b.HasIndex("storeId");
 
                     b.HasIndex("userId");
 
@@ -985,12 +983,6 @@ namespace invetario_api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("invetario_api.Modules.store.entity.Store", "store")
-                        .WithMany()
-                        .HasForeignKey("storeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("invetario_api.Modules.users.entity.User", "user")
                         .WithMany()
                         .HasForeignKey("userId")
@@ -998,8 +990,6 @@ namespace invetario_api.Migrations
                         .IsRequired();
 
                     b.Navigation("client");
-
-                    b.Navigation("store");
 
                     b.Navigation("user");
                 });

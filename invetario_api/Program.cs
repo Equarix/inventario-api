@@ -24,6 +24,7 @@ using invetario_api.Modules.users.current_user;
 using invetario_api.Modules.payMethod;
 using invetario_api.Modules.boxMove;
 using invetario_api.Modules.storeUser;
+using invetario_api.Modules.sale;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -72,6 +73,9 @@ builder.Services.AddScoped<IBoxmoveService, BoxmoveService>();
 
 
 builder.Services.AddScoped<IStoreuserService, StoreuserService>();
+
+
+builder.Services.AddScoped<ISaleService, SaleService>();
 
 builder.Services.Configure<ApiBehaviorOptions>(opt =>
 {

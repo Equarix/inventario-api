@@ -17,6 +17,7 @@ using invetario_api.Modules.boxMove.entity;
 
 
 using invetario_api.Modules.storeUser.entity;
+using invetario_api.Modules.sale.entity;
 namespace invetario_api.database
 {
     public class Database : DbContext
@@ -54,6 +55,11 @@ namespace invetario_api.database
         public DbSet<Boxmove> boxMoves { get; set; }
 
         public DbSet<Storeuser> storeUsers { get; set; }
+
+
+        public DbSet<Sale> sales { get; set; }
+        public DbSet<SaleMethods> saleMethods { get; set; }
+        public DbSet<SaleDetails> saleDetails { get; set; }
 
         public Database(DbContextOptions<Database> options) : base(options) { }
 

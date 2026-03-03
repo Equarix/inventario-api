@@ -29,7 +29,7 @@ namespace invetario_api.Modules.store
         }
 
         [HttpGet("{storeId:int}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         public async Task<IActionResult> FindById(int storeId)
         {
             var result = await _storeService.getStoreById(storeId);
