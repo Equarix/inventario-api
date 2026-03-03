@@ -28,6 +28,14 @@ namespace invetario_api.Modules.store
             return Ok(result);
         }
 
+        [HttpGet("search")]
+        [Authorize]
+        public async Task<IActionResult> Search([FromQuery] string name, [FromQuery] int storeId)
+        {
+            var result = await _storeService.searchByStoreIdAndName(name, storeId);
+            return Ok(result);
+        }
+
         [HttpGet("{storeId:int}")]
         [Authorize]
         public async Task<IActionResult> FindById(int storeId)

@@ -28,6 +28,15 @@ namespace invetario_api.Modules.client
             return Ok(result);
         }
 
+        [HttpGet("search")]
+        [Authorize]
+        public async Task<IActionResult> Search([FromQuery] string documentNumber)
+        {
+            var result = await _clientService.searchClients(documentNumber);
+            return Ok(result);
+        }
+
+
         [HttpGet("{clientId:int}")]
         [Authorize]
         public async Task<IActionResult> FindById(int clientId)

@@ -16,6 +16,8 @@ public class SaleResponse
     public List<SaleDetailsResponse> saleDetails { get; set; }
     public DateTime createdAt { get; set; }
     public bool status { get; set; }
+    public string typeDocument { get; set; }
+    public string typeMoney { get; set; }
     public StoreSingleResponse store { get; set; }
 
     public static SaleResponse FromEntity(entity.Sale sale)
@@ -31,7 +33,9 @@ public class SaleResponse
             saleDetails = SaleDetailsResponse.FromEntityList(sale.saleDetails.ToList()),
             createdAt = sale.createdAt,
             status = sale.status,
-            store = StoreSingleResponse.fromEntity(sale.store)
+            store = StoreSingleResponse.fromEntity(sale.store),
+            typeDocument = sale.typeDocument.ToString(),
+            typeMoney = sale.typeMoney.ToString()
         };
     }
 

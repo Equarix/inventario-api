@@ -27,5 +27,7 @@ namespace invetario_api.Modules.store
 
         Task<List<StoreProductResponse>> getProductsByStore(int storeId);
         Task<StoreProductResponse?> getStoreProductById(int storeId, int productStoreId);
+
+        Task<List<StoreProductResponse>> searchByStoreIdAndName(string name, int storeId);
     }
 }

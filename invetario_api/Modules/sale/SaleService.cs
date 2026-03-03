@@ -115,9 +115,9 @@ namespace invetario_api.Modules.sale
                 var totalPayments = data.saleMethods
                     .Sum(sm => sm.amount);
 
-                if (total != totalPayments)
-                    throw new HttpException(400,
-                        $"Total of sale ({total}) does not match total of payments ({totalPayments})");
+                var subTotal = totalPayments * 0.18;
+
+                var totalWithTax = total + subTotal;
 
                 foreach (var ps in productStores)
                 {
@@ -126,11 +126,13 @@ namespace invetario_api.Modules.sale
 
                 var sale = new Sale
                 {
+                    typeDocument = data.typeDocument!.Value,
+                    typeMoney = data.typeMoney!.Value,
                     clientId = client.clientId,
                     userId = user.userId,
                     storeId = data.storeId,
                     observations = data.observations,
-                    total = (float)total,
+                    total = (float)totalWithTax,
                     createdAt = DateTime.UtcNow
                 };
 

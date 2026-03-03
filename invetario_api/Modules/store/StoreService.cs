@@ -282,5 +282,20 @@ namespace invetario_api.Modules.store
 
             return StoreProductResponse.fromEntityList(storeProducts);
         }
+
+        public async Task<List<StoreProductResponse>> searchByStoreIdAndName(string name, int storeId)
+        {
+            var storeProducts = await _db.productStores
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.category)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.unit)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.image)
+                .Where(ps => ps.storeId == storeId && ps.product.name.Contains(name))
+                .ToListAsync();
+
+            return StoreProductResponse.fromEntityList(storeProducts);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using invetario_api.database;
 
@@ -11,9 +12,11 @@ using invetario_api.database;
 namespace invetario_api.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20260303031901_enums-sale")]
+    partial class enumssale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,50 +166,6 @@ namespace invetario_api.Migrations
                     b.HasKey("clientId");
 
                     b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("invetario_api.Modules.config.entity.Config", b =>
-                {
-                    b.Property<int>("configId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("configId"));
-
-                    b.Property<string>("address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("contactEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("enterpriseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("localCurrency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("logoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ruc")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("configId");
-
-                    b.ToTable("Configs");
                 });
 
             modelBuilder.Entity("invetario_api.Modules.departureorder.entity.DepartureOrderDetail", b =>
@@ -426,9 +385,6 @@ namespace invetario_api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("turned")
                         .HasColumnType("bit");
 
                     b.HasKey("paymethodId");

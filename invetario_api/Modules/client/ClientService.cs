@@ -85,5 +85,11 @@ namespace invetario_api.Modules.client
             await _db.SaveChangesAsync();
             return ClientResponseSingle.fromEntity(findClient);
         }
+
+        public async Task<List<ClientResponseSingle>> searchClients(string documentNumber)
+        {
+            var clients = await _db.clients.Where(c => c.documentNumber.Contains(documentNumber)).ToListAsync();
+            return ClientResponseSingle.fromEntityList(clients);
+        }
     }
 }

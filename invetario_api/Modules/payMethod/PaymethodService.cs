@@ -28,6 +28,7 @@ namespace invetario_api.Modules.payMethod
             var newPaymethod = new Paymethod
             {
                 name = data.name,
+                turned = data.turned
             };
 
             _db.payMethods.Add(newPaymethod);
@@ -69,6 +70,7 @@ namespace invetario_api.Modules.payMethod
             }
 
             findPaymethod.name = data.name;
+            findPaymethod.turned = data.turned;
             findPaymethod.status = data.status!.Value;
             await _db.SaveChangesAsync();
             return findPaymethod;

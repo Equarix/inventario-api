@@ -47,6 +47,15 @@ namespace invetario_api.Modules.box
                 throw new HttpException(404, "User not found");
             }
 
+
+            var findOpenBox = await _db.boxs.Where(b => b.userActualId == data.userActualId && b.userClosingId == null && b.isOpen == true).FirstOrDefaultAsync();
+
+
+            if (findOpenBox != null)
+            {
+                throw new HttpException(400, "The user already has an open box");
+            }
+
             var newBox = new Box
             {
                 amountOpening = data.amountOpening,

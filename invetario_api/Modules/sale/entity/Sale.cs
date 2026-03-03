@@ -1,5 +1,6 @@
 using invetario_api.Modules.client.entity;
 using invetario_api.Modules.products.entity;
+using invetario_api.Modules.sale.enums;
 using invetario_api.Modules.store.entity;
 using invetario_api.Modules.users.entity;
 using System.ComponentModel.DataAnnotations;
@@ -38,6 +39,10 @@ namespace invetario_api.Modules.sale.entity
         public DateTime createdAt { get; set; } = DateTime.Now;
 
         public bool status { get; set; } = true;
+
+        public TypeMoney typeMoney { get; set; }
+
+        public TypeDocumentSale typeDocument { get; set; }
 
         [Required]
         public int storeId { get; set; }

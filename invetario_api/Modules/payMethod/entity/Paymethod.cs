@@ -14,6 +14,9 @@ namespace invetario_api.Modules.payMethod.entity
         [Required]
         public string name { get; set; }
 
+        [Required]
+        public bool turned { get; set; } = false;
+
         public bool status { get; set; } = true;
     }
 }

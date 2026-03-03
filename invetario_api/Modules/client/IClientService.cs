@@ -18,5 +18,7 @@ namespace invetario_api.Modules.client
         Task<ClientResponseSingle?> updateClient(int clientId, UpdateClientDto data);
 
         Task<ClientResponseSingle?> deleteClient(int clientId);
+
+        Task<List<ClientResponseSingle>> searchClients(string documentNumber);
     }
 }

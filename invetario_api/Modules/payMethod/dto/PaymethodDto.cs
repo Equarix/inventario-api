@@ -7,5 +7,7 @@ namespace invetario_api.Modules.payMethod.dto
     [Required]
     [MinLength(3)]
     public string name { get; set; }
+
+    public bool turned { get; set; } = false;
   }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using invetario_api.Modules.sale.enums;
 
 namespace invetario_api.Modules.sale.dto
 {
@@ -13,6 +14,14 @@ namespace invetario_api.Modules.sale.dto
     [Required]
     [Range(1, int.MaxValue)]
     public int storeId { get; set; }
+
+    [Required]
+    [EnumDataType(typeof(TypeDocumentSale))]
+    public TypeDocumentSale? typeDocument { get; set; }
+
+    [Required]
+    [EnumDataType(typeof(TypeMoney))]
+    public TypeMoney? typeMoney { get; set; }
 
     [Required]
     [MinLength(1)]
