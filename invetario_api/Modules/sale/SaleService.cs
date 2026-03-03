@@ -207,7 +207,21 @@ namespace invetario_api.Modules.sale
 
         public async Task<SaleResponse?> getSaleById(int saleId)
         {
-            throw new NotImplementedException();
+            var sale = await _db.sales
+                .Where(s => s.saleId == saleId)
+                .Include(s => s.client)
+                .Include(s => s.user)
+                .Include(s => s.store)
+                .Include(s => s.saleDetails)
+                    .ThenInclude(sd => sd.product)
+                .Include(s => s.saleMethods)
+                    .ThenInclude(sm => sm.payMethod)
+                .FirstOrDefaultAsync();
+
+            if (sale == null)
+                throw new HttpException(404, "Sale not found");
+
+            return SaleResponse.FromEntity(sale);
         }
     }
 }
