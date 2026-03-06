@@ -10,21 +10,29 @@ namespace invetario_api.Modules.auth
 
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private IAuthService _authService;
 
-        public AuthController(IAuthService authService) {
+        public AuthController(IAuthService authService)
+        {
             _authService = authService;
         }
 
-        [HttpPost]
-        [Route("login")]
+        [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<IActionResult> login([FromBody] LoginDto loginDto)
         {
             var loginResponse = await _authService.login(loginDto);
             return Ok(loginResponse);
+        }
+
+        [Authorize]
+        [HttpGet("revalidate")]
+        public async Task<IActionResult> revalidate()
+        {
+            var isValid = await _authService.revalidate();
+            return Ok(isValid);
         }
     }
 }

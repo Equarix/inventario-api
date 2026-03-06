@@ -76,5 +76,10 @@ namespace invetario_api.Modules.auth
                 user = findUser
             };
         }
+
+        public async Task<bool> revalidate()
+        {
+            return true;
+        }
     }
 }

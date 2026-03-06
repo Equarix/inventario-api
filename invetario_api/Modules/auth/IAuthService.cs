@@ -10,5 +10,7 @@ namespace invetario_api.Modules.auth
     {
         public Task<LoginResponse?> login(LoginDto loginDto);
         public Task registerAdmin();
+
+        public Task<bool> revalidate();
     }
 }
