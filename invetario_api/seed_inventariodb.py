@@ -42,7 +42,6 @@ NUM_PAYMETHODS    = 6
 NUM_PRODUCTS      = 300
 NUM_BOXES         = 6
 NUM_ENTRY_ORDERS  = 12
-NUM_DEPART_ORDERS = 10
 NUM_SALES         = 1500
 
 
@@ -412,53 +411,6 @@ def seed_entry_order_details(cursor, entry_order_ids, product_ids):
          "entryOrderDetailStatus", "createdAt"], rows)
 
 
-def seed_departure_orders(cursor, client_ids):
-    print("  → Departureorders")
-    motives = [
-        "Venta a cliente", "Traslado entre almacenes", "Devolución a proveedor",
-        "Merma o pérdida", "Muestra gratuita", "Ajuste de inventario",
-    ]
-    rows = [
-        (
-            random.randint(1, 3),
-            random.choice(client_ids),
-            rand_date(90), rand_date(90),
-            random.choice(motives),
-            random.randint(1, 3),
-            round(random.choice([0.0, 0.18]), 2),
-            fake.sentence(nb_words=6),
-            fake.bothify("DOC-####-????").upper(),
-        )
-        for _ in range(NUM_DEPART_ORDERS)
-    ]
-    return insert_many(cursor, "Departureorders", "departureorderId",
-        ["departureType", "clientId", "departureDate", "createdAt",
-         "motive", "status", "tax", "observations", "documentReference"], rows)
-
-
-def seed_departure_order_details(cursor, departure_order_ids, product_ids, store_ids):
-    print("  → DepartureOrderDetails")
-    unit_types = ["UND", "CAJA", "PACK", "KG"]
-    rows = []
-    for do in departure_order_ids:
-        for p in random.sample(product_ids, k=random.randint(1, 4)):
-            qty = random.randint(1, 20)
-            rows.append((
-                do, p,
-                random.choice(store_ids),
-                random.choice(unit_types),
-                qty, qty,
-                round(random.uniform(50.0, 3000.0), 2),
-                fake.bothify("LOTE-####-??").upper(),
-                random.randint(1, 3),
-                rand_date(90),
-            ))
-    return insert_many(cursor, "DepartureOrderDetails", "DepartureOrderDetailId",
-        ["DepartureOrderId", "ProductId", "storeId", "unitType",
-         "quantity", "departedQuantity", "unitPrice", "lote",
-         "status", "createdAt"], rows)
-
-
 def seed_sales(cursor, client_ids, user_ids, store_ids):
     print("  → Sales")
     rows = [
@@ -534,8 +486,6 @@ def seed_all():
         seed_boxmoves(cursor, box_ids, user_ids, paymethod_ids); conn.commit()
         entry_ids     = seed_entry_orders(cursor, provider_ids, store_ids); conn.commit()
         seed_entry_order_details(cursor, entry_ids, product_ids);           conn.commit()
-        dep_ids       = seed_departure_orders(cursor, client_ids);          conn.commit()
-        seed_departure_order_details(cursor, dep_ids, product_ids, store_ids); conn.commit()
         sale_ids      = seed_sales(cursor, client_ids, user_ids, store_ids);    conn.commit()
         seed_sale_details(cursor, conn, sale_ids, product_ids);                 conn.commit()
         seed_sale_methods(cursor, conn, sale_ids, paymethod_ids);               conn.commit()

@@ -52,6 +52,7 @@ namespace invetario_api.Modules.sale
                 .Include(s => s.saleDetails)
                 .ThenInclude(sd => sd.product)
                 .Include(s => s.store)
+                .OrderByDescending(s => s.createdAt)
                 .Skip((paginate.page - 1) * paginate.limit)
                 .Take(paginate.limit)
                 .ToListAsync();

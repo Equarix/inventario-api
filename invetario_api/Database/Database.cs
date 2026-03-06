@@ -10,7 +10,6 @@ using invetario_api.Modules.provider.entity;
 using invetario_api.Modules.client.entity;
 using invetario_api.Modules.entryorder.entity;
 using invetario_api.Modules.images.entity;
-using invetario_api.Modules.departureorder.entity;
 using invetario_api.Modules.box.entity;
 using invetario_api.Modules.payMethod.entity;
 using invetario_api.Modules.boxMove.entity;
@@ -45,10 +44,6 @@ namespace invetario_api.database
 
         public DbSet<Images> images { get; set; }
 
-        public DbSet<Departureorder> departureorders { get; set; }
-
-        public DbSet<DepartureOrderDetail> departureOrderDetails { get; set; }
-
         public DbSet<Box> boxs { get; set; }
 
         public DbSet<Paymethod> payMethods { get; set; }
@@ -65,7 +60,7 @@ namespace invetario_api.database
 
         public DbSet<Config> configs { get; set; }
 
-public Database(DbContextOptions<Database> options) : base(options) { }
+        public Database(DbContextOptions<Database> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
