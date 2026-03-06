@@ -10,6 +10,7 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -27,6 +28,7 @@
     <Folder Include="Modules\storeUser\response\" />
     <Folder Include="Modules\users\current-user\" />
     <Folder Include="Validations\" />
+    <Folder Include="Websocket\chat\dto\" />
   </ItemGroup>
 
 </Project>

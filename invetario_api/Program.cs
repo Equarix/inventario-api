@@ -25,6 +25,7 @@ using invetario_api.Modules.boxMove;
 using invetario_api.Modules.storeUser;
 using invetario_api.Modules.sale;
 using invetario_api.Modules.config;
+using invetario_api.Websocket.chat;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -140,20 +141,35 @@ builder.Services.AddAuthentication(
 
             var res = ResponseApi<object>.Forbidden().toJson();
             await context.Response.WriteAsync(res);
+        },
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
         }
     };
 });
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddSignalR();
+
 
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy
+             .SetIsOriginAllowed(_ => true)
+             .AllowAnyHeader()
+             .AllowAnyMethod()
+             .AllowCredentials();
     });
 });
 
@@ -180,6 +196,7 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapHub<ChatWS>("/hub/chat");
 
 app.MapControllers();
 

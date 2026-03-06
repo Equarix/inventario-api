@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using invetario_api.Modules.store.entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace invetario_api.Modules.users.entity
 {
     [Table("Users")]
+    [Index(nameof(userId))]
     public class User
     {
         [Key]
@@ -16,7 +18,7 @@ namespace invetario_api.Modules.users.entity
 
         [Column(TypeName = "varchar(MAX)")]
         public string password { get; set; }
-        
+
         [Required]
         public string firstName { get; set; }
 
