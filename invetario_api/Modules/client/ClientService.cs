@@ -4,6 +4,7 @@ using invetario_api.Modules.client.dto;
 using invetario_api.Modules.client.entity;
 using invetario_api.Modules.client.response;
 using invetario_api.utils;
+using invetario_api.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -19,10 +20,30 @@ namespace invetario_api.Modules.client
             _db = db;
         }
 
-        public async Task<List<ClientResponseSingle>> getClients()
+        public async Task<List<ClientResponseSingle>> getClientsV1()
         {
             var clients = await _db.clients.ToListAsync();
             return ClientResponseSingle.fromEntityList(clients);
+        }
+
+        public async Task<PageResult<List<ClientResponseSingle>>> getClients(PaginateDto paginate)
+        {
+            var query = _db.clients.AsQueryable();
+
+            var totalItems = await query.CountAsync();
+
+            var clients = await query
+                .Skip((paginate.page - 1) * paginate.limit)
+                .Take(paginate.limit)
+                .ToListAsync();
+
+            return new PageResult<List<ClientResponseSingle>>
+            {
+                items = ClientResponseSingle.fromEntityList(clients),
+                totalItems = totalItems,
+                page = paginate.page,
+                limit = paginate.limit
+            };
         }
 
         public async Task<ClientResponseSingle> createClient(ClientDto data)

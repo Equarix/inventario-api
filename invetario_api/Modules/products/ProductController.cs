@@ -1,5 +1,6 @@
 using System;
 using invetario_api.Modules.products.dto;
+using invetario_api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,9 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> FindAll()
+    public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate)
     {
-        var result = await _productService.getProducts();
+        var result = await _productService.getProducts(paginate);
         return Ok(result);
     }
 

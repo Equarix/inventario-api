@@ -5,6 +5,7 @@ using invetario_api.Modules.sale.entity;
 using invetario_api.Modules.sale.response;
 using invetario_api.Modules.users.current_user;
 using invetario_api.utils;
+using invetario_api.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace invetario_api.Modules.sale
             _currentUser = currentUser;
         }
 
-        public async Task<List<SaleResponse>> getSales()
+        public async Task<List<SaleResponse>> getSalesV1(PaginateDto paginate)
         {
             var sales = await _db.sales
                 .Include(s => s.client)
@@ -35,6 +36,33 @@ namespace invetario_api.Modules.sale
                 .ToListAsync();
 
             return SaleResponse.FromEntityList(sales);
+        }
+
+        public async Task<PageResult<List<SaleResponse>>> getSales(PaginateDto paginate)
+        {
+            var query = _db.sales.AsQueryable();
+
+            var totalItems = await query.CountAsync();
+
+            var items = await query
+                .Include(s => s.client)
+                .Include(s => s.user)
+                .Include(s => s.saleMethods)
+                .ThenInclude(sp => sp.payMethod)
+                .Include(s => s.saleDetails)
+                .ThenInclude(sd => sd.product)
+                .Include(s => s.store)
+                .Skip((paginate.page - 1) * paginate.limit)
+                .Take(paginate.limit)
+                .ToListAsync();
+
+            return new PageResult<List<SaleResponse>>
+            {
+                items = SaleResponse.FromEntityList(items),
+                totalItems = totalItems,
+                page = paginate.page,
+                limit = paginate.limit
+            };
         }
 
         public async Task<SaleResponse> createSale(SaleDto data)
@@ -225,5 +253,6 @@ namespace invetario_api.Modules.sale
 
             return SaleResponse.FromEntity(sale);
         }
+
     }
 }

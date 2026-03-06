@@ -1,6 +1,7 @@
 using invetario_api.Modules.sale.dto;
 using invetario_api.Modules.sale.entity;
 using invetario_api.utils;
+using invetario_api.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -20,9 +21,9 @@ namespace invetario_api.Modules.sale
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll()
+        public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate)
         {
-            var result = await _saleService.getSales();
+            var result = await _saleService.getSales(paginate);
             return Ok(result);
         }
 

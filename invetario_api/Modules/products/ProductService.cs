@@ -3,6 +3,7 @@ using invetario_api.Exceptions;
 using invetario_api.Modules.products.dto;
 using invetario_api.Modules.products.entity;
 using invetario_api.Modules.products.response;
+using invetario_api.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace invetario_api.Modules.products
@@ -98,7 +99,7 @@ namespace invetario_api.Modules.products
             return ProductResponse.fromEntity(findProduct);
         }
 
-        public async Task<List<ProductResponse>> getProducts()
+        public async Task<List<ProductResponse>> getProductsV1()
         {
             var products = await _db.products
                 .Include(p => p.category)
@@ -107,6 +108,31 @@ namespace invetario_api.Modules.products
                 .ToListAsync();
             return ProductResponse.fromEntityList(products);
         }
+
+        public async Task<PageResult<List<ProductResponse>>> getProducts(PaginateDto paginate)
+        {
+            var query = _db.products.AsQueryable();
+
+            var totalItems = await query.CountAsync();
+
+            var products = await query
+                .Include(p => p.category)
+                .Include(p => p.unit)
+                .Include(p => p.image)
+                .Skip((paginate.page - 1) * paginate.limit)
+                .Take(paginate.limit)
+                .ToListAsync();
+            var productsParse = ProductResponse.fromEntityList(products);
+
+            return new PageResult<List<ProductResponse>>
+            {
+                items = productsParse,
+                totalItems = totalItems,
+                page = paginate.page,
+                limit = paginate.limit
+            };
+        }
+
 
         public async Task<List<ProductResponse>> getProudctsByStoreId(int storeId)
         {

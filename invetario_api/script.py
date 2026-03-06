@@ -63,12 +63,13 @@ using invetario_api.Modules.{name}.entity;
 using invetario_api.utils;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using invetario_api.Utils;
 
 namespace invetario_api.Modules.{name}
 {{
     public interface I{name.capitalize()}Service
     {{
-        Task<List<{name.capitalize()}>> get{name.capitalize()}s();
+        Task<PageResult<List<{name.capitalize()}>>> get{name.capitalize()}s(PaginateDto paginate);
 
         Task<{name.capitalize()}?> get{name.capitalize()}ById(int {name}Id);
         
@@ -104,7 +105,7 @@ namespace invetario_api.Modules.{name}
             _db = db;
         }}
 
-        public async Task<List<{name.capitalize()}>> get{name.capitalize()}s()
+        public async Task<PageResult<List<{name.capitalize()}>>> get{name.capitalize()}s(PaginateDto paginate)
         {{
             throw new NotImplementedException();
         }}
@@ -141,6 +142,7 @@ using invetario_api.Modules.{name}.entity;
 using invetario_api.utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using invetario_api.Utils;
 
 
 namespace invetario_api.Modules.{name}
@@ -157,9 +159,9 @@ namespace invetario_api.Modules.{name}
         }}
 
         [HttpGet]
-        public async Task<IActionResult> FindAll() 
+        public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate) 
         {{
-            var result = await _{name}Service.get{name.capitalize()}s();
+            var result = await _{name}Service.get{name.capitalize()}s(paginate);
             return Ok(result);
         }}
         

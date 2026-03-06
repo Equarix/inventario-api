@@ -1,6 +1,7 @@
 using invetario_api.Modules.client.dto;
 using invetario_api.Modules.client.entity;
 using invetario_api.utils;
+using invetario_api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -22,9 +23,9 @@ namespace invetario_api.Modules.client
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> FindAll()
+        public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate)
         {
-            var result = await _clientService.getClients();
+            var result = await _clientService.getClients(paginate);
             return Ok(result);
         }
 

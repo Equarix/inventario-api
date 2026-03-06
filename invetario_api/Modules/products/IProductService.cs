@@ -1,11 +1,12 @@
 ﻿using invetario_api.Modules.products.dto;
 using invetario_api.Modules.products.response;
+using invetario_api.Utils;
 
 namespace invetario_api.Modules.products
 {
     public interface IProductService
     {
-        Task<List<ProductResponse>> getProducts();
+        Task<PageResult<List<ProductResponse>>> getProducts(PaginateDto paginate);
 
         Task<ProductResponse?> getProductById(int productId);
 
