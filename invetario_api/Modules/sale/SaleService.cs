@@ -1,12 +1,14 @@
 using invetario_api.database;
 using invetario_api.Exceptions;
 using invetario_api.Modules.sale.dto;
+using invetario_api.Modules.sale.dto.query;
 using invetario_api.Modules.sale.entity;
 using invetario_api.Modules.sale.response;
 using invetario_api.Modules.users.current_user;
 using invetario_api.utils;
 using invetario_api.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -38,13 +40,16 @@ namespace invetario_api.Modules.sale
             return SaleResponse.FromEntityList(sales);
         }
 
-        public async Task<PageResult<List<SaleResponse>>> getSales(PaginateDto paginate)
+        public async Task<PageResult<List<SaleResponse>>> getSales(SaleQueryDto paginate)
         {
+
+            var allSale = paginate.storeId.Value == 0;
+
             var query = _db.sales.AsQueryable();
 
-            var totalItems = await query.CountAsync();
+            var totalItems = allSale ? await query.CountAsync() : await query.Where(s => s.storeId == paginate.storeId.Value).CountAsync();
 
-            var items = await query
+            var queryItems = query
                 .Include(s => s.client)
                 .Include(s => s.user)
                 .Include(s => s.saleMethods)
@@ -54,8 +59,9 @@ namespace invetario_api.Modules.sale
                 .Include(s => s.store)
                 .OrderByDescending(s => s.createdAt)
                 .Skip((paginate.page - 1) * paginate.limit)
-                .Take(paginate.limit)
-                .ToListAsync();
+                .Take(paginate.limit);
+
+            var items = allSale ? await queryItems.ToListAsync() : await queryItems.Where(s => s.storeId == paginate.storeId.Value).ToListAsync();
 
             return new PageResult<List<SaleResponse>>
             {
@@ -144,9 +150,6 @@ namespace invetario_api.Modules.sale
                 var totalPayments = data.saleMethods
                     .Sum(sm => sm.amount);
 
-                var subTotal = totalPayments * 0.18;
-
-                var totalWithTax = total + subTotal;
 
                 foreach (var ps in productStores)
                 {
@@ -161,7 +164,7 @@ namespace invetario_api.Modules.sale
                     userId = user.userId,
                     storeId = data.storeId,
                     observations = data.observations,
-                    total = (float)totalWithTax,
+                    total = (float)total,
                     createdAt = DateTime.UtcNow
                 };
 
@@ -255,5 +258,31 @@ namespace invetario_api.Modules.sale
             return SaleResponse.FromEntity(sale);
         }
 
+        public async Task<object> getKpi(int storeId)
+        {
+            using (var con = _db.Database.GetDbConnection())
+            {
+                await con.OpenAsync();
+
+                using var cmd = con.CreateCommand();
+                cmd.CommandText = "EXECUTE sale_kpi @storeId";
+                cmd.Parameters.Add(new SqlParameter("@storeId", storeId));
+
+                using var reader = await cmd.ExecuteReaderAsync();
+
+                if (await reader.ReadAsync())
+                {
+                    return new
+                    {
+                        totalSales = reader.GetInt32(0),
+                        totalRevenue = reader.GetDouble(1),
+                        averageTicket = reader.GetDouble(2),
+                        cantSaleToday = reader.GetInt32(3),
+                    };
+                }
+
+                throw new HttpException(404, "Store not found or no sales");
+            }
+        }
     }
 }

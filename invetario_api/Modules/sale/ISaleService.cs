@@ -1,4 +1,5 @@
 using invetario_api.Modules.sale.dto;
+using invetario_api.Modules.sale.dto.query;
 using invetario_api.Modules.sale.entity;
 using invetario_api.Modules.sale.response;
 using invetario_api.utils;
@@ -10,12 +11,15 @@ namespace invetario_api.Modules.sale
 {
     public interface ISaleService
     {
-        Task<PageResult<List<SaleResponse>>> getSales(PaginateDto paginate);
+        Task<PageResult<List<SaleResponse>>> getSales(SaleQueryDto paginate);
 
         Task<SaleResponse?> getSaleById(int saleId);
 
         Task<SaleResponse> createSale(SaleDto data);
 
         Task<SaleResponse?> deleteSale(int saleId);
+
+        Task<object> getKpi(int storeId);
     }
+
 }

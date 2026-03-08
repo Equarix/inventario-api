@@ -35,7 +35,8 @@ namespace invetario_api.Modules.users
                 email = userDto.email,
                 password = hashPassword,
                 firstName = userDto.firstName,
-                lastName = userDto.lastName
+                lastName = userDto.lastName,
+                role = userDto.role ?? Role.AUDIENCE
             };
             await _db.users.AddAsync(newUser);
             await _db.SaveChangesAsync();

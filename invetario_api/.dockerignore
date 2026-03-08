@@ -1,0 +1,38 @@
+# build
+bin/
+obj/
+out/
+
+# archivos de visual studio
+.vs/
+.vscode/
+*.user
+*.suo
+
+# git
+.git
+.gitignore
+
+# docker
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+
+# logs
+*.log
+
+# node (si usas angular o frontend)
+node_modules/
+dist/
+
+# archivos temporales
+*.tmp
+*.cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# config sensibles
+.env
+appsettings.Development.json

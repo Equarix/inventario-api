@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using invetario_api.Modules.users.entity;
 
 namespace invetario_api.Modules.users.dto
 {
@@ -19,5 +20,8 @@ namespace invetario_api.Modules.users.dto
         [Required]
         [MinLength(2)]
         public string lastName { get; set; }
+
+        [EnumDataType(typeof(Role))]
+        public Role? role { get; set; }
     }
 }

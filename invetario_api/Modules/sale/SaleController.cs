@@ -1,4 +1,5 @@
 using invetario_api.Modules.sale.dto;
+using invetario_api.Modules.sale.dto.query;
 using invetario_api.Modules.sale.entity;
 using invetario_api.utils;
 using invetario_api.Utils;
@@ -21,9 +22,16 @@ namespace invetario_api.Modules.sale
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate)
+        public async Task<IActionResult> FindAll([FromQuery] SaleQueryDto paginate)
         {
             var result = await _saleService.getSales(paginate);
+            return Ok(result);
+        }
+
+        [HttpGet("kpi/{storeId:int}")]
+        public async Task<IActionResult> GetKpi(int storeId)
+        {
+            var result = await _saleService.getKpi(storeId);
             return Ok(result);
         }
 
