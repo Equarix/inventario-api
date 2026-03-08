@@ -25,6 +25,14 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("kpi")]
+    [Authorize]
+    public async Task<IActionResult> GetKPI()
+    {
+        var result = await _productService.getKpi();
+        return Ok(result);
+    }
+
     [HttpGet("store-available/{storeId:int}")]
     [Authorize]
     public async Task<IActionResult> FindByStoreId(int storeId)

@@ -4,7 +4,7 @@ GROUP BY c.name, c.clientId
 order by totalSales desc
 
 go
-create proc sale_kpi
+create or alter proc sale_kpi
     @storeId int
 as
 BEGIN
@@ -27,5 +27,13 @@ BEGIN
 end     
 
 
-select * from sales
-select * from SaleDetails
+
+GO
+create or alter proc products_kpi
+AS
+BEGIN
+    select COUNT(*) as total_products,
+    COUNT(CASE  WHEN [status] = 1 THEN 1 END) as active_products,
+    ROUND(AVG(priceSell), 2) as average_price
+    from Products 
+end

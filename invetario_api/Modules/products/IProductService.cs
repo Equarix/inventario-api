@@ -8,6 +8,8 @@ namespace invetario_api.Modules.products
     {
         Task<PageResult<List<ProductResponse>>> getProducts(PaginateDto paginate);
 
+        Task<object> getKpi();
+
         Task<ProductResponse?> getProductById(int productId);
 
         Task<List<ProductResponse>> getProudctsByStoreId(int storeId);

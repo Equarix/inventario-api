@@ -208,5 +208,31 @@ namespace invetario_api.Modules.products
             await _db.SaveChangesAsync();
             return ProductResponse.fromEntity(findProductTask);
         }
+
+        public async Task<object> getKpi()
+        {
+            using (var con = _db.Database.GetDbConnection())
+            {
+                await con.OpenAsync();
+                using (var command = con.CreateCommand())
+                {
+                    command.CommandText = "products_kpi";
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    var reader = await command.ExecuteReaderAsync();
+
+                    if (await reader.ReadAsync())
+                    {
+                        return new
+                        {
+                            totalProducts = reader.GetInt32(0),
+                            totalActiveProducts = reader.GetInt32(1),
+                            averagePrice = reader.GetDouble(2)
+                        };
+                    }
+                }
+                throw new HttpException(500, "Error executing KPI query");
+            }
+        }
     }
 }
