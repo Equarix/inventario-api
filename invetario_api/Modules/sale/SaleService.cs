@@ -56,12 +56,13 @@ namespace invetario_api.Modules.sale
                 .ThenInclude(sp => sp.payMethod)
                 .Include(s => s.saleDetails)
                 .ThenInclude(sd => sd.product)
-                .Include(s => s.store)
-                .OrderByDescending(s => s.createdAt)
-                .Skip((paginate.page - 1) * paginate.limit)
-                .Take(paginate.limit);
+                .Include(s => s.store);
 
-            var items = allSale ? await queryItems.ToListAsync() : await queryItems.Where(s => s.storeId == paginate.storeId.Value).ToListAsync();
+            var filterQuery = allSale ? queryItems : queryItems.Where(s => s.storeId == paginate.storeId.Value);
+
+            var items = await filterQuery.OrderByDescending(s => s.createdAt)
+                .Skip((paginate.page - 1) * paginate.limit)
+                .Take(paginate.limit).ToListAsync();
 
             return new PageResult<List<SaleResponse>>
             {

@@ -8,12 +8,22 @@ create proc sale_kpi
     @storeId int
 as
 BEGIN
-select count(saleId) as total_venta,
-    ROUND(sum(total), 2) as total_ingresos,
-    ROUND(AVG(total), 2) as promedio_ingresos,
-    (select count(saleId) from Sales where createdAt = GETDATE()) as ventas_hoy
-    from Sales
-    where storeId = @storeId
+
+    IF @storeId = 0
+    BEGIN
+        select count(saleId) as total_venta,
+        ROUND(sum(total), 2) as total_ingresos,
+        ROUND(AVG(total), 2) as promedio_ingresos,
+        (select count(saleId) from Sales where createdAt = GETDATE()) as ventas_hoy
+        from Sales
+    END
+    ELSE
+        select count(saleId) as total_venta,
+            ROUND(sum(total), 2) as total_ingresos,
+            ROUND(AVG(total), 2) as promedio_ingresos,
+            (select count(saleId) from Sales where createdAt = GETDATE()) as ventas_hoy
+            from Sales
+            where storeId = @storeId
 end     
 
 
