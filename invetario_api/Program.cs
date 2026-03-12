@@ -26,6 +26,7 @@ using invetario_api.Modules.storeUser;
 using invetario_api.Modules.sale;
 using invetario_api.Modules.config;
 using invetario_api.Websocket.chat;
+using invetario_api.Modules.home;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -79,6 +80,7 @@ builder.Services.AddScoped<ISaleService, SaleService>();
 
 
 builder.Services.AddScoped<IConfigService, ConfigService>();
+builder.Services.AddScoped<IHomeService, HomeService>();
 
 builder.Services.Configure<ApiBehaviorOptions>(opt =>
 {
