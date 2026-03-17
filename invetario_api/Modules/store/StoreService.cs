@@ -1,6 +1,7 @@
 using invetario_api.database;
 using invetario_api.Exceptions;
 using invetario_api.Modules.products.entity;
+using invetario_api.Modules.proforma.dto;
 using invetario_api.Modules.store.dto;
 using invetario_api.Modules.store.entity;
 using invetario_api.Modules.store.response;
@@ -267,7 +268,7 @@ namespace invetario_api.Modules.store
             return StoreProductResponse.fromEntity(productStore);
         }
 
-        public async Task<List<StoreProductResponse>> getProductsByStore(int storeId)
+        public async Task<List<StoreProductResponse>> getProductsByStoreV1(int storeId)
         {
             Console.WriteLine("Fetching products for store ID: " + storeId);
             var storeProducts = await _db.productStores
@@ -282,6 +283,38 @@ namespace invetario_api.Modules.store
 
             return StoreProductResponse.fromEntityList(storeProducts);
         }
+
+        public async Task<PageResult<List<StoreProductResponse>>> getProductsByStore(PaginateDto paginate, int storeId)
+        {
+            var query = _db.productStores.AsQueryable();
+
+            var count = await query.Where(ps => ps.storeId == storeId).CountAsync();
+
+
+            var storeProducts = await _db.productStores
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.category)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.unit)
+                    .Include(ps => ps.product)
+                    .ThenInclude(p => p.image)
+                .Where(ps => ps.storeId == storeId)
+                .Skip((paginate.page - 1) * paginate.limit)
+                .Take(paginate.limit)
+                .ToListAsync();
+
+            var storeResponse = StoreProductResponse.fromEntityList(storeProducts);
+
+            return new PageResult<List<StoreProductResponse>>
+            {
+                items = storeResponse,
+                totalItems = count,
+                limit = paginate.limit,
+                page = paginate.page,
+            };
+        }
+
+
 
         public async Task<List<StoreProductResponse>> searchByStoreIdAndName(string name, int storeId)
         {

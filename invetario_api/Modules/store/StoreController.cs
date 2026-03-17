@@ -1,6 +1,7 @@
 using invetario_api.Modules.store.dto;
 using invetario_api.Modules.store.entity;
 using invetario_api.utils;
+using invetario_api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -47,9 +48,9 @@ namespace invetario_api.Modules.store
 
         [HttpGet("{storeId:int}/products")]
         [Authorize(Roles = "ADMIN, STORE")]
-        public async Task<IActionResult> GetProductsByStore(int storeId)
+        public async Task<IActionResult> GetProductsByStore([FromQuery] PaginateDto paginate, int storeId)
         {
-            var result = await _storeService.getProductsByStore(storeId);
+            var result = await _storeService.getProductsByStore(paginate, storeId);
             return Ok(result);
         }
 

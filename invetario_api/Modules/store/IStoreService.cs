@@ -2,6 +2,7 @@ using invetario_api.Modules.store.dto;
 using invetario_api.Modules.store.entity;
 using invetario_api.Modules.store.response;
 using invetario_api.utils;
+using invetario_api.Utils;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace invetario_api.Modules.store
 
         Task<StoreProductResponse> removeProductFromStore(int storeId, int productStoreId);
 
-        Task<List<StoreProductResponse>> getProductsByStore(int storeId);
+        Task<PageResult<List<StoreProductResponse>>> getProductsByStore(PaginateDto paginate, int storeId);
         Task<StoreProductResponse?> getStoreProductById(int storeId, int productStoreId);
 
         Task<List<StoreProductResponse>> searchByStoreIdAndName(string name, int storeId);
