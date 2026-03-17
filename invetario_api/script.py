@@ -91,6 +91,7 @@ def createService(entity_path: str, name: str):
 using invetario_api.Modules.{name}.dto;
 using invetario_api.Modules.{name}.entity;
 using invetario_api.utils;
+using invetario_api.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;

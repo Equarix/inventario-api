@@ -1,6 +1,8 @@
 using invetario_api.Modules.box.dto;
 using invetario_api.Modules.box.entity;
+using invetario_api.Modules.users.entity;
 using invetario_api.utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,6 +12,7 @@ namespace invetario_api.Modules.box
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BoxController : ControllerBase
     {
         private IBoxService _boxService;

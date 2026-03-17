@@ -1,6 +1,7 @@
 using invetario_api.Modules.payMethod.dto;
 using invetario_api.Modules.payMethod.entity;
 using invetario_api.utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,23 +11,25 @@ namespace invetario_api.Modules.payMethod
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class PaymethodController : ControllerBase
     {
         private IPaymethodService _payMethodService;
 
-        public PaymethodController(IPaymethodService payMethodService) {
+        public PaymethodController(IPaymethodService payMethodService)
+        {
             _payMethodService = payMethodService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll() 
+        public async Task<IActionResult> FindAll()
         {
             var result = await _payMethodService.getPaymethods();
             return Ok(result);
         }
-        
+
         [HttpGet("{payMethodId:int}")]
-        public async Task<IActionResult> FindById(int payMethodId) 
+        public async Task<IActionResult> FindById(int payMethodId)
         {
             var result = await _payMethodService.getPaymethodById(payMethodId);
             return Ok(result);
@@ -41,7 +44,7 @@ namespace invetario_api.Modules.payMethod
 
         [HttpPut("{payMethodId:int}")]
         public async Task<IActionResult> update(int payMethodId, [FromBody] UpdatePaymethodDto data)
-        {            
+        {
             var result = await _payMethodService.updatePaymethod(payMethodId, data);
             return Ok(result);
         }

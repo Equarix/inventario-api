@@ -1,8 +1,10 @@
 using invetario_api.Modules.sale.dto;
 using invetario_api.Modules.sale.dto.query;
 using invetario_api.Modules.sale.entity;
+using invetario_api.Modules.users.entity;
 using invetario_api.utils;
 using invetario_api.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,6 +14,7 @@ namespace invetario_api.Modules.sale
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = RoleString.Admin)]
     public class SaleController : ControllerBase
     {
         private ISaleService _saleService;

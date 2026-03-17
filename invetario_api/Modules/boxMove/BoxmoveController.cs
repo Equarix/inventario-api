@@ -1,6 +1,8 @@
 using invetario_api.Modules.boxMove.dto;
 using invetario_api.Modules.boxMove.entity;
+using invetario_api.Modules.users.entity;
 using invetario_api.utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,23 +12,25 @@ namespace invetario_api.Modules.boxMove
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BoxmoveController : ControllerBase
     {
         private IBoxmoveService _boxMoveService;
 
-        public BoxmoveController(IBoxmoveService boxMoveService) {
+        public BoxmoveController(IBoxmoveService boxMoveService)
+        {
             _boxMoveService = boxMoveService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll() 
+        public async Task<IActionResult> FindAll()
         {
             var result = await _boxMoveService.getBoxmoves();
             return Ok(result);
         }
-        
+
         [HttpGet("{boxMoveId:int}")]
-        public async Task<IActionResult> FindById(int boxMoveId) 
+        public async Task<IActionResult> FindById(int boxMoveId)
         {
             var result = await _boxMoveService.getBoxmoveById(boxMoveId);
             return Ok(result);
@@ -41,7 +45,7 @@ namespace invetario_api.Modules.boxMove
 
         [HttpPut("{boxMoveId:int}")]
         public async Task<IActionResult> update(int boxMoveId, [FromBody] UpdateBoxmoveDto data)
-        {            
+        {
             var result = await _boxMoveService.updateBoxmove(boxMoveId, data);
             return Ok(result);
         }

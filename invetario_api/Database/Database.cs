@@ -19,6 +19,7 @@ using invetario_api.Modules.storeUser.entity;
 using invetario_api.Modules.sale.entity;
 using invetario_api.Modules.config.entity;
 using invetario_api.Modules.chat.entity;
+using invetario_api.Modules.proforma.entity;
 namespace invetario_api.database
 {
     public class Database : DbContext
@@ -62,6 +63,10 @@ namespace invetario_api.database
         public DbSet<Config> configs { get; set; }
 
         public DbSet<ChatMessage> chatMessages { get; set; }
+
+        public DbSet<Proforma> proformas { get; set; }
+
+        public DbSet<ProformaDetails> proformaDetails { get; set; }
 
         public Database(DbContextOptions<Database> options) : base(options) { }
 

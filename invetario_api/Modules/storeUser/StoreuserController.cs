@@ -1,6 +1,7 @@
 using invetario_api.Modules.storeUser.dto;
 using invetario_api.Modules.storeUser.entity;
 using invetario_api.utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace invetario_api.Modules.storeUser
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class StoreuserController : ControllerBase
     {
         private IStoreuserService _storeUserService;

@@ -1,4 +1,5 @@
 using invetario_api.Modules.config.dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -7,6 +8,7 @@ namespace invetario_api.Modules.config
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ConfigController : ControllerBase
     {
         private IConfigService _configService;
