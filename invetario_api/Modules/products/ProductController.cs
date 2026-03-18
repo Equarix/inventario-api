@@ -33,6 +33,14 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("report-products")]
+    [Authorize]
+    public async Task<IActionResult> GetReport([FromQuery] ReportProductQueryDto querydto)
+    {
+        var result = await _productService.getReportProducts(querydto);
+        return Ok(result);
+    }
+
     [HttpGet("store-available/{storeId:int}")]
     [Authorize]
     public async Task<IActionResult> FindByStoreId(int storeId)

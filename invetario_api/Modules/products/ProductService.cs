@@ -3,6 +3,7 @@ using invetario_api.Exceptions;
 using invetario_api.Modules.products.dto;
 using invetario_api.Modules.products.entity;
 using invetario_api.Modules.products.response;
+using invetario_api.Modules.store.response;
 using invetario_api.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -233,6 +234,40 @@ namespace invetario_api.Modules.products
                 }
                 throw new HttpException(500, "Error executing KPI query");
             }
+        }
+
+        public async Task<List<ReportProductSummaryDto>> getReportProducts(ReportProductQueryDto querydto)
+        {
+            var startDate = querydto.startDate!.Value.Date;
+            var endDate = querydto.endDate!.Value.Date.AddDays(1);
+            var storeId = querydto.storeId!.Value;
+
+            var data = await _db.reportProducts
+                .Where(r =>
+                    r.storeId == storeId &&
+                    r.date >= startDate &&
+                    r.date < endDate)
+                .GroupBy(r => new { r.productId, r.storeId, r.userId })
+                .Select(g => new
+                {
+                    g.Key.productId,
+                    g.Key.storeId,
+                    totalQuantity = g.Sum(r => r.quantity),
+                    product = g.Select(x => x.product).FirstOrDefault(),
+                    store = g.Select(x => x.store).FirstOrDefault()
+                })
+                .ToListAsync();
+
+            var items = data.Select(x => new ReportProductSummaryDto
+            {
+                productId = x.productId,
+                storeId = x.storeId,
+                totalQuantity = x.totalQuantity,
+                product = ProductSingleResponse.fromEntity(x.product!),
+                store = StoreSingleResponse.fromEntity(x.store!)
+            }).ToList();
+
+            return items;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using invetario_api.Modules.products.dto;
 using invetario_api.Modules.products.response;
+using invetario_api.Modules.store.response;
 using invetario_api.Utils;
 
 namespace invetario_api.Modules.products
@@ -17,6 +18,8 @@ namespace invetario_api.Modules.products
         Task<ProductResponse?> createProduct(ProductDto product);
 
         Task<ProductResponse?> updateProduct(int productId, UpdateProductDto product);
+
+        Task<List<ReportProductSummaryDto>> getReportProducts(ReportProductQueryDto query);
 
         Task<ProductResponse?> deleteProduct(int productId);
     }

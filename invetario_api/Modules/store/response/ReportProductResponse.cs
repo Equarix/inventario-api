@@ -37,3 +37,4 @@ public class ReportProductResponse
         return reportProducts.Select(fromEntity).ToList();
     }
 }
+
