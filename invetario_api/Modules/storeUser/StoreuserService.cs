@@ -76,5 +76,15 @@ namespace invetario_api.Modules.storeUser
 
             return Task.FromResult(StoreUserResponse.fromEntityList(storeUsers));
         }
+
+        public async Task<List<StoreUserResponseSingle>> getUsersByStoreId(int storeId)
+        {
+            var storesUsers = await _db.storeUsers
+                .Include(su => su.User)
+                .Where(su => su.StoreId == storeId && su.status == true)
+                .ToListAsync();
+
+            return StoreUserResponseSingle.fromEntityList(storesUsers);
+        }
     }
 }

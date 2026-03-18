@@ -4,6 +4,7 @@ using invetario_api.Modules.products.dto;
 using invetario_api.Modules.products.entity;
 using invetario_api.Modules.products.response;
 using invetario_api.Modules.store.response;
+using invetario_api.Modules.users.response;
 using invetario_api.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -254,7 +255,14 @@ namespace invetario_api.Modules.products
                     g.Key.storeId,
                     totalQuantity = g.Sum(r => r.quantity),
                     product = g.Select(x => x.product).FirstOrDefault(),
-                    store = g.Select(x => x.store).FirstOrDefault()
+                    store = g.Select(x => x.store).FirstOrDefault(),
+                    count = g.Count(x => x.productId == g.Key.productId),
+                    detail = new
+                    {
+                        userId = g.Key.userId,
+                        quantity = g.Sum(r => r.quantity),
+                        user = g.Select(x => x.user).FirstOrDefault()
+                    }
                 })
                 .ToListAsync();
 
@@ -264,7 +272,17 @@ namespace invetario_api.Modules.products
                 storeId = x.storeId,
                 totalQuantity = x.totalQuantity,
                 product = ProductSingleResponse.fromEntity(x.product!),
-                store = StoreSingleResponse.fromEntity(x.store!)
+                store = StoreSingleResponse.fromEntity(x.store!),
+                count = x.count,
+                users = new List<UserReportProductSummaryDto>
+                {
+                    new UserReportProductSummaryDto
+                    {
+                        userId = x.detail.userId,
+                        quantity = x.detail.quantity,
+                        user = UserSingleResponse.fromEntity(x.detail.user)
+                    }
+                }
             }).ToList();
 
             return items;

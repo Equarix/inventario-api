@@ -62,7 +62,7 @@ BEGIN
     LEFT JOIN Sales s 
         ON CAST(s.createdAt AS DATE) = d.Fecha
     GROUP BY d.Fecha
-    ORDER BY d.Fecha DESC
+    ORDER BY d.Fecha
 END
 
 

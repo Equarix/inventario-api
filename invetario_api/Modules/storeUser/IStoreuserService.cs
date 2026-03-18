@@ -16,5 +16,7 @@ namespace invetario_api.Modules.storeUser
         Task<StoreUserResponse?> deleteStoreuser(int storeUserId);
 
         Task<List<StoreUserResponse>> getStoreByToken();
+
+        Task<List<StoreUserResponseSingle>> getUsersByStoreId(int storeId);
     }
 }

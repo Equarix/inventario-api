@@ -35,3 +35,33 @@ public class StoreUserResponse
         return storeUsers.Select(storeUser => fromEntity(storeUser)).ToList();
     }
 }
+
+
+public class StoreUserResponseSingle
+{
+    public int StoreUserId { get; set; }
+
+
+    public UserSingleResponse User { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public bool status { get; set; }
+
+
+    public static StoreUserResponseSingle fromEntity(Storeuser storeUser)
+    {
+        return new StoreUserResponseSingle
+        {
+            StoreUserId = storeUser.StoreUserId,
+            User = UserSingleResponse.fromEntity(storeUser.User),
+            CreatedAt = storeUser.CreatedAt,
+            status = storeUser.status
+        };
+    }
+
+    public static List<StoreUserResponseSingle> fromEntityList(List<Storeuser> storeUsers)
+    {
+        return storeUsers.Select(storeUser => fromEntity(storeUser)).ToList();
+    }
+}

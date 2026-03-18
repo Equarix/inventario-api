@@ -35,6 +35,12 @@ namespace invetario_api.Modules.storeUser
             return Ok(result);
         }
 
+        [HttpGet("users-by-store/{storeId:int}")]
+        public async Task<IActionResult> GetUsersByStoreId(int storeId)
+        {
+            var result = await _storeUserService.getUsersByStoreId(storeId);
+            return Ok(result);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] StoreuserDto data)
