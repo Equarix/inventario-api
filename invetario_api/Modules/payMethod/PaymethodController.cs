@@ -28,6 +28,13 @@ namespace invetario_api.Modules.payMethod
             return Ok(result);
         }
 
+        [HttpGet("active")]
+        public async Task<IActionResult> FindAllActive()
+        {
+            var result = await _payMethodService.getPaymethodsActive();
+            return Ok(result);
+        }
+
         [HttpGet("{payMethodId:int}")]
         public async Task<IActionResult> FindById(int payMethodId)
         {

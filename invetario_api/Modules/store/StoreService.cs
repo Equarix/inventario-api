@@ -5,6 +5,7 @@ using invetario_api.Modules.proforma.dto;
 using invetario_api.Modules.store.dto;
 using invetario_api.Modules.store.entity;
 using invetario_api.Modules.store.response;
+using invetario_api.Modules.users.current_user;
 using invetario_api.utils;
 using invetario_api.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -17,9 +18,12 @@ namespace invetario_api.Modules.store
     {
         private Database _db;
 
-        public StoreService(Database db)
+        private ICurrentUserService _currentUserService;
+
+        public StoreService(Database db, ICurrentUserService currentUserService)
         {
             _db = db;
+            _currentUserService = currentUserService;
         }
 
         public async Task<List<StoreResponse>> getStores()
@@ -329,6 +333,74 @@ namespace invetario_api.Modules.store
                 .ToListAsync();
 
             return StoreProductResponse.fromEntityList(storeProducts);
+        }
+
+        public async Task<PageResult<List<ReportProductResponse>>> getReportProducts(PaginateDto paginate)
+        {
+            var query = _db.reportProducts.AsQueryable();
+
+            var count = await query.CountAsync();
+
+            var reportProducts = await _db.reportProducts
+                .Include(rp => rp.product)
+                    .ThenInclude(p => p.category)
+                    .Include(rp => rp.product)
+                    .ThenInclude(p => p.unit)
+                    .Include(rp => rp.product)
+                    .ThenInclude(p => p.image)
+                .Include(rp => rp.store)
+                .Include(rp => rp.user)
+                .Skip((paginate.page - 1) * paginate.limit)
+                .Take(paginate.limit)
+                .ToListAsync();
+
+            return new PageResult<List<ReportProductResponse>>
+            {
+                items = ReportProductResponse.fromEntityList(reportProducts),
+                totalItems = count,
+                limit = paginate.limit,
+                page = paginate.page,
+            };
+        }
+
+        public async Task<ReportProductResponse> createReportProduct(ReportProductDto data)
+        {
+            var user = await _currentUserService.GetCurrentUser();
+
+            var findStore = await _db.stores
+                .Where(s => s.storeId == data.storeId && s.status == true)
+                .FirstOrDefaultAsync();
+
+            if (findStore == null)
+            {
+                throw new HttpException(404, "Store not found");
+            }
+
+            var findProduct = await _db.products
+                .Where(p => p.productId == data.productId && p.status == true)
+                .FirstOrDefaultAsync();
+
+            if (findProduct == null)
+            {
+                throw new HttpException(404, "Product not found");
+            }
+
+            var newReportProduct = new ReportProduct
+            {
+                productId = data.productId!.Value,
+                quantity = data.quantity!.Value,
+                date = data.date,
+                storeId = data.storeId!.Value,
+                userId = user!.userId,
+                product = findProduct,
+                store = findStore,
+                user = user
+            };
+
+            await _db.reportProducts.AddAsync(newReportProduct);
+            await _db.SaveChangesAsync();
+
+            return ReportProductResponse.fromEntity(newReportProduct);
         }
     }
 }

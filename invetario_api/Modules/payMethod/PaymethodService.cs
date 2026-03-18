@@ -75,5 +75,11 @@ namespace invetario_api.Modules.payMethod
             await _db.SaveChangesAsync();
             return findPaymethod;
         }
+
+        public Task<List<Paymethod>> getPaymethodsActive()
+        {
+            var paymethods = _db.payMethods.Where(p => p.status == true).ToListAsync();
+            return paymethods;
+        }
     }
 }

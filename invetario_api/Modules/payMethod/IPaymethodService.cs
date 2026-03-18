@@ -10,8 +10,10 @@ namespace invetario_api.Modules.payMethod
     {
         Task<List<Paymethod>> getPaymethods();
 
+        Task<List<Paymethod>> getPaymethodsActive();
+
         Task<Paymethod?> getPaymethodById(int payMethodId);
-        
+
         Task<Paymethod> createPaymethod(PaymethodDto data);
 
         Task<Paymethod?> updatePaymethod(int payMethodId, UpdatePaymethodDto data);

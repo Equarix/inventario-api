@@ -30,5 +30,10 @@ namespace invetario_api.Modules.store
         Task<StoreProductResponse?> getStoreProductById(int storeId, int productStoreId);
 
         Task<List<StoreProductResponse>> searchByStoreIdAndName(string name, int storeId);
+
+
+        Task<PageResult<List<ReportProductResponse>>> getReportProducts(PaginateDto paginate);
+
+        Task<ReportProductResponse> createReportProduct(ReportProductDto data);
     }
 }

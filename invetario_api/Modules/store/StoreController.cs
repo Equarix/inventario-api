@@ -110,5 +110,22 @@ namespace invetario_api.Modules.store
             var result = await _storeService.deleteStore(storeId);
             return Ok(result);
         }
+
+
+        [HttpGet("report")]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<IActionResult> GetReport([FromQuery] PaginateDto paginate)
+        {
+            var result = await _storeService.getReportProducts(paginate);
+            return Ok(result);
+        }
+
+        [HttpPost("report")]
+        [Authorize]
+        public async Task<IActionResult> CreateReport([FromBody] ReportProductDto data)
+        {
+            var result = await _storeService.createReportProduct(data);
+            return Ok(result);
+        }
     }
 }
