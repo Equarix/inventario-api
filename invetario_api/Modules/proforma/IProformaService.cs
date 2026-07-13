@@ -15,5 +15,7 @@ namespace invetario_api.Modules.proforma
         Task<ProformaResponse?> getProformaById(int proformaId);
 
         Task<ProformaResponse> createProforma(ProformaDto data);
+
+        Task<List<ProformaResponse>> getProformaByTypeNumDocument(string typeDocument, string documentNumber);
     }
 }

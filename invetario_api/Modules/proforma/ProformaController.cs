@@ -43,5 +43,11 @@ namespace invetario_api.Modules.proforma
             return Ok(result);
         }
 
+        [HttpGet("search/sale")]
+        public async Task<IActionResult> Search([FromQuery] string typeDocument, [FromQuery] string documentNumber)
+        {
+            var result = await _proformaService.getProformaByTypeNumDocument(typeDocument, documentNumber);
+            return Ok(result);
+        }
     }
 }

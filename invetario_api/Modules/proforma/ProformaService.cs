@@ -134,5 +134,21 @@ namespace invetario_api.Modules.proforma
             return ProformaResponse.fromProforma(proforma);
         }
 
+        public async Task<List<ProformaResponse>> getProformaByTypeNumDocument(string typeDocument, string documentNumber)
+        {
+            var proforma = await _db.proformas
+                .Include(x => x.client)
+                .Include(x => x.store)
+                .Include(x => x.user)
+                .Include(x => x.details)
+                    .ThenInclude(x => x.product)
+                .Where(x => x.client.typeDocument == typeDocument && x.client.documentNumber == documentNumber)
+                .ToListAsync();
+
+            if (proforma == null)
+                throw new HttpException(404, "Proforma not found");
+
+            return ProformaResponse.fromProformaList(proforma);
+        }
     }
 }
