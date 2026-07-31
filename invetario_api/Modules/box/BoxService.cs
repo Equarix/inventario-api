@@ -121,5 +121,8 @@ namespace invetario_api.Modules.box
 
             return BoxResponse.fromEntity(box);
         }
+
+
+
     }
 }

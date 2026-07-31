@@ -40,5 +40,12 @@ namespace invetario_api.Modules.dayBox
             var result = await _dayBoxService.getDayboxByDate(query);
             return Ok(result);
         }
+
+        [HttpGet("is-create-sales/{boxId}")]
+        public async Task<IActionResult> IsCreateSales(int boxId)
+        {
+            var result = await _dayBoxService.isCreateSales(boxId);
+            return Ok(result);
+        }
     }
 }

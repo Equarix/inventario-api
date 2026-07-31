@@ -110,5 +110,30 @@ namespace invetario_api.Modules.dayBox
 
             return DayBoxResponse.fromEntity(daybox);
         }
+
+        public async Task<object> isCreateSales(int boxId)
+        {
+            var today = DateTime.Now.Date;
+
+            var dayboxtoday = await _db.dayBoxs
+                .FirstOrDefaultAsync(d => d.date.Date == today && d.boxId == boxId);
+
+            if (dayboxtoday != null)
+            {
+                return new { isCreateSales = false, message = "Ya se ha cerrado la caja del dia " + today };
+            }
+
+            var ayer = DateTime.Now.AddDays(-1).Date;
+
+            var dayboxayer = await _db.dayBoxs
+                .FirstOrDefaultAsync(d => d.date.Date == ayer && d.boxId == boxId);
+
+            if (dayboxayer == null)
+            {
+                return new { isCreateSales = false, message = "Tiene que Cerrar Caja del dia " + ayer };
+            }
+
+            return new { isCreateSales = true, message = "Se puede crear la caja del dia " + today };
+        }
     }
 }

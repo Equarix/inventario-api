@@ -17,5 +17,7 @@ namespace invetario_api.Modules.dayBox
         Task<DayBoxResponse?> deleteDaybox(int dayBoxId);
 
         Task<DayBoxResponse?> getDayboxByDate(QueryDayBoxByDate query);
+
+        Task<object> isCreateSales(int boxId);
     }
 }

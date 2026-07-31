@@ -19,5 +19,6 @@ namespace invetario_api.Modules.box
         Task<BoxResponse?> updateBox(int boxId, UpdateBoxDto data);
 
         Task<BoxResponse?> deleteBox(int boxId);
+
     }
 }
