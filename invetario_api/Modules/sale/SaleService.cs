@@ -56,7 +56,8 @@ namespace invetario_api.Modules.sale
                 .ThenInclude(sp => sp.payMethod)
                 .Include(s => s.saleDetails)
                 .ThenInclude(sd => sd.product)
-                .Include(s => s.store);
+                .Include(s => s.store)
+                .Include(s => s.box);
 
             var filterQuery = allSale ? queryItems : queryItems.Where(s => s.storeId == paginate.storeId.Value);
 
@@ -100,6 +101,13 @@ namespace invetario_api.Modules.sale
 
                 if (client == null)
                     throw new HttpException(404, "Client not found");
+
+
+                var box = await _db.boxs
+                    .FirstOrDefaultAsync(b => b.boxId == data.boxId);
+
+                if (box == null)
+                    throw new HttpException(404, "Box not found");
 
                 var saleDetailsDict = data.saleDetails
                     .GroupBy(x => x.productId)
@@ -166,7 +174,8 @@ namespace invetario_api.Modules.sale
                     storeId = data.storeId,
                     observations = data.observations,
                     total = (float)total,
-                    createdAt = DateTime.UtcNow
+                    createdAt = DateTime.UtcNow,
+                    boxId = data.boxId.Value,
                 };
 
                 _db.sales.Add(sale);
@@ -224,6 +233,7 @@ namespace invetario_api.Modules.sale
                         .ThenInclude(sd => sd.product)
                     .Include(s => s.saleMethods)
                         .ThenInclude(sm => sm.payMethod)
+                    .Include(s => s.box)
                     .FirstOrDefaultAsync();
 
                 return SaleResponse.FromEntity(createdSale!);

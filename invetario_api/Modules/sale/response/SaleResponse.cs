@@ -1,4 +1,5 @@
 using System;
+using invetario_api.Modules.box.response;
 using invetario_api.Modules.client.response;
 using invetario_api.Modules.store.response;
 using invetario_api.Modules.users.response;
@@ -20,6 +21,8 @@ public class SaleResponse
     public string typeMoney { get; set; }
     public StoreSingleResponse store { get; set; }
 
+    public BoxSingleResponse box { get; set; }
+
     public static SaleResponse FromEntity(entity.Sale sale)
     {
         return new SaleResponse
@@ -35,7 +38,8 @@ public class SaleResponse
             status = sale.status,
             store = StoreSingleResponse.fromEntity(sale.store),
             typeDocument = sale.typeDocument.ToString(),
-            typeMoney = sale.typeMoney.ToString()
+            typeMoney = sale.typeMoney.ToString(),
+            box = BoxSingleResponse.fromEntity(sale.box)
         };
     }
 

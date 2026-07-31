@@ -30,5 +30,8 @@ namespace invetario_api.Modules.sale.dto
     [Required]
     [MinLength(1)]
     public List<SaleDetailsDto> saleDetails { get; set; }
+
+    [Required]
+    public int? boxId { get; set; }
   }
 }

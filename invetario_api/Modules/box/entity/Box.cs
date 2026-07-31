@@ -1,5 +1,6 @@
 using invetario_api.Modules.dayBox.entity;
 using invetario_api.Modules.products.entity;
+using invetario_api.Modules.sale.entity;
 using invetario_api.Modules.store.entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,5 +30,7 @@ namespace invetario_api.Modules.box.entity
         public ICollection<Daybox> dayboxes { get; set; }
 
         public ICollection<BoxUser> boxUsers { get; set; }
+
+        public ICollection<Sale> sales { get; set; }
     }
 }

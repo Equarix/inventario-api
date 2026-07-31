@@ -1,3 +1,4 @@
+using invetario_api.Modules.box.entity;
 using invetario_api.Modules.client.entity;
 using invetario_api.Modules.products.entity;
 using invetario_api.Modules.sale.enums;
@@ -49,5 +50,11 @@ namespace invetario_api.Modules.sale.entity
 
         [ForeignKey(nameof(storeId))]
         public Store store { get; set; }
+
+        [Required]
+        public int boxId { get; set; }
+
+        [ForeignKey("boxId")]
+        public Box box { get; set; }
     }
 }
