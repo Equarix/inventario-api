@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using invetario_api.database;
 
@@ -11,9 +12,11 @@ using invetario_api.database;
 namespace invetario_api.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20260731215148_date_daybox")]
+    partial class date_daybox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,14 +251,9 @@ namespace invetario_api.Migrations
                     b.Property<float>("totalefectivo")
                         .HasColumnType("real");
 
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
                     b.HasKey("dayboxId");
 
                     b.HasIndex("boxId");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("Dayboxs");
                 });
@@ -995,15 +993,7 @@ namespace invetario_api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("invetario_api.Modules.users.entity.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("box");
-
-                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("invetario_api.Modules.entryorder.entity.EntryOrderDetail", b =>

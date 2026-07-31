@@ -15,21 +15,15 @@ namespace invetario_api.Modules.dayBox
     {
         private IDayboxService _dayBoxService;
 
-        public DayboxController(IDayboxService dayBoxService) {
+        public DayboxController(IDayboxService dayBoxService)
+        {
             _dayBoxService = dayBoxService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate) 
+        public async Task<IActionResult> FindAll([FromQuery] QueryDayBox paginate)
         {
             var result = await _dayBoxService.getDayboxs(paginate);
-            return Ok(result);
-        }
-        
-        [HttpGet("{dayBoxId:int}")]
-        public async Task<IActionResult> FindById(int dayBoxId) 
-        {
-            var result = await _dayBoxService.getDayboxById(dayBoxId);
             return Ok(result);
         }
 
@@ -40,18 +34,10 @@ namespace invetario_api.Modules.dayBox
             return Ok(result);
         }
 
-        [HttpPut("{dayBoxId:int}")]
-        public async Task<IActionResult> update(int dayBoxId, [FromBody] UpdateDayboxDto data)
-        {            
-            var result = await _dayBoxService.updateDaybox(dayBoxId, data);
-            return Ok(result);
-        }
-
-
-        [HttpDelete("{dayBoxId:int}")]
-        public async Task<IActionResult> delete(int dayBoxId)
+        [HttpGet("by-date")]
+        public async Task<IActionResult> FindByDate([FromQuery] QueryDayBoxByDate query)
         {
-            var result = await _dayBoxService.deleteDaybox(dayBoxId);
+            var result = await _dayBoxService.getDayboxByDate(query);
             return Ok(result);
         }
     }

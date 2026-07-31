@@ -15,19 +15,20 @@ namespace invetario_api.Modules.box
     {
         private IBoxService _boxService;
 
-        public BoxController(IBoxService boxService) {
+        public BoxController(IBoxService boxService)
+        {
             _boxService = boxService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate) 
+        public async Task<IActionResult> FindAll([FromQuery] PaginateDto paginate)
         {
             var result = await _boxService.getBoxs(paginate);
             return Ok(result);
         }
-        
+
         [HttpGet("{boxId:int}")]
-        public async Task<IActionResult> FindById(int boxId) 
+        public async Task<IActionResult> FindById(int boxId)
         {
             var result = await _boxService.getBoxById(boxId);
             return Ok(result);
@@ -42,7 +43,7 @@ namespace invetario_api.Modules.box
 
         [HttpPut("{boxId:int}")]
         public async Task<IActionResult> update(int boxId, [FromBody] UpdateBoxDto data)
-        {            
+        {
             var result = await _boxService.updateBox(boxId, data);
             return Ok(result);
         }

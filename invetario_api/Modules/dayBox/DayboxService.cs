@@ -1,6 +1,9 @@
 using invetario_api.database;
+using invetario_api.Exceptions;
 using invetario_api.Modules.dayBox.dto;
 using invetario_api.Modules.dayBox.entity;
+using invetario_api.Modules.dayBox.response;
+using invetario_api.Modules.users.current_user;
 using invetario_api.utils;
 using invetario_api.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,34 +15,100 @@ namespace invetario_api.Modules.dayBox
     public class DayboxService : IDayboxService
     {
         private Database _db;
+        private readonly ICurrentUserService _currentUserService;
 
-        public DayboxService(Database db) { 
+        public DayboxService(Database db, ICurrentUserService currentUserService)
+        {
             _db = db;
+            _currentUserService = currentUserService;
+
         }
 
-        public async Task<PageResult<List<Daybox>>> getDayboxs(PaginateDto paginate)
+        public async Task<PageResult<List<DayBoxResponse>>> getDayboxs(QueryDayBox paginate)
         {
-            throw new NotImplementedException();
+            var query = _db.dayBoxs.AsQueryable();
+
+            if (paginate.date != null)
+            {
+                query = query.Where(d => d.date.Date == paginate.date);
+            }
+
+            var totalItems = await query.CountAsync();
+            var items = await query
+                .Include(d => d.box)
+                .Include(d => d.user)
+                .Skip((paginate.page - 1) * paginate.limit)
+                .Take(paginate.limit)
+            .ToListAsync();
+
+            var dayBoxResponses = DayBoxResponse.fromEntityList(items);
+
+            return new PageResult<List<DayBoxResponse>>
+            {
+                items = dayBoxResponses,
+                totalItems = totalItems,
+                limit = paginate.limit,
+                page = paginate.page
+            };
         }
 
-        public async Task<Daybox> createDaybox(DayboxDto data)
-        {   
-            throw new NotImplementedException();
-        }
-
-        public async Task<Daybox?> deleteDaybox(int dayBoxId)
+        public async Task<DayBoxResponse> createDaybox(DayboxDto data)
         {
-            throw new NotImplementedException();
+            var box = await _db.boxs.FindAsync(data.boxId);
+
+            if (box == null)
+            {
+                throw new HttpException(404, "Box not found");
+            }
+
+            var currentUser = await _currentUserService.GetCurrentUser();
+
+            var daybox = new Daybox
+            {
+                boxId = data.boxId.Value,
+                totalefectivo = data.totalefectivo.Value,
+                totalTarjeta = data.totalTarjeta.Value,
+                observations = data.observations,
+                date = data.date.Value,
+                box = box,
+                userId = currentUser.userId,
+                user = currentUser
+            };
+
+            _db.dayBoxs.Add(daybox);
+            await _db.SaveChangesAsync();
+
+            return DayBoxResponse.fromEntity(daybox);
         }
 
-        public async Task<Daybox?> getDayboxById(int dayBoxId)
+        public async Task<DayBoxResponse?> deleteDaybox(int dayBoxId)
         {
-            throw new NotImplementedException();
+            var daybox = await _db.dayBoxs.FindAsync(dayBoxId);
+
+            if (daybox == null)
+            {
+                throw new HttpException(404, "Daybox not found");
+            }
+
+            daybox.status = false;
+            await _db.SaveChangesAsync();
+
+            return DayBoxResponse.fromEntity(daybox);
         }
 
-        public async Task<Daybox?> updateDaybox(int dayBoxId, UpdateDayboxDto data)
+        public async Task<DayBoxResponse?> getDayboxByDate(QueryDayBoxByDate query)
         {
-            throw new NotImplementedException();
+            var daybox = await _db.dayBoxs
+                .Include(d => d.box)
+                .Include(d => d.user)
+                .FirstOrDefaultAsync(d => d.date.Date == query.date.Value.Date && d.boxId == query.boxId.Value);
+
+            if (daybox == null)
+            {
+                throw new HttpException(404, "Daybox not found");
+            }
+
+            return DayBoxResponse.fromEntity(daybox);
         }
     }
 }
