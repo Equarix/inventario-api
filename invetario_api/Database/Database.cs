@@ -18,6 +18,7 @@ using invetario_api.Modules.sale.entity;
 using invetario_api.Modules.config.entity;
 using invetario_api.Modules.chat.entity;
 using invetario_api.Modules.proforma.entity;
+using invetario_api.Modules.box.entity;
 namespace invetario_api.database
 {
     public class Database : DbContext
@@ -68,7 +69,9 @@ namespace invetario_api.database
 
         public DbSet<ProductPrices> productPrices { get; set; }
 
-        public Database(DbContextOptions<Database> options) : base(options) { }
+        public DbSet<Box> boxs { get; set; }
+
+public Database(DbContextOptions<Database> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

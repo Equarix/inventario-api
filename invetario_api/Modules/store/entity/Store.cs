@@ -1,3 +1,4 @@
+using invetario_api.Modules.box.entity;
 using invetario_api.Modules.entryorder.entity;
 using invetario_api.Modules.products.entity;
 using invetario_api.Modules.users.entity;
@@ -47,5 +48,7 @@ namespace invetario_api.Modules.store.entity
         public ICollection<ProductStore> productStores { get; set; } = new List<ProductStore>();
 
         public ICollection<Entryorder> entryOrders { get; set; } = new List<Entryorder>();
+
+        public ICollection<Box> boxs { get; set; } = new List<Box>();
     }
 }
