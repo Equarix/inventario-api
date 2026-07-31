@@ -1,4 +1,5 @@
 ﻿using invetario_api.Modules.users.entity;
+using invetario_api.Modules.users.response;
 
 namespace invetario_api.Modules.auth.response
 {
@@ -6,7 +7,7 @@ namespace invetario_api.Modules.auth.response
     {
         public string token { get; set; }
 
-        public User user { get; set; }
+        public UserLogin user { get; set; }
 
 
     }

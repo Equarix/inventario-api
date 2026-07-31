@@ -33,5 +33,11 @@ namespace invetario_api.Modules.users
             return Ok(newUser);
         }
 
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] dto.UserDto userDto)
+        {
+            var updatedUser = await _userService.updateUser(userId, userDto);
+            return Ok(updatedUser);
+        }
     }
 }

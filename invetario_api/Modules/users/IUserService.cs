@@ -8,5 +8,7 @@ namespace invetario_api.Modules.users
         public Task<UserSingleResponse?> createUser(UserDto userDto);
 
         public Task<List<UserSingleResponse>> getUsers();
+
+        public Task<UserLogin?> updateUser(int userId, UserDto userDto);
     }
 }

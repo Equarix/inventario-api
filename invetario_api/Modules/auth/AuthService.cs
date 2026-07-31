@@ -4,6 +4,7 @@ using invetario_api.Jwt;
 using invetario_api.Modules.auth.dto;
 using invetario_api.Modules.auth.response;
 using invetario_api.Modules.users.entity;
+using invetario_api.Modules.users.response;
 using invetario_api.utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,10 @@ namespace invetario_api.Modules.auth
         {
             var findUser = await _db.users
                 .Where(u => u.email == loginDto.email)
+                .Include(u => u.storeUsers)
+                .ThenInclude(su => su.Store)
+                .Include(u => u.boxUsers)
+                .ThenInclude(bu => bu.box)
                 .FirstOrDefaultAsync();
 
             if (findUser == null)
@@ -73,7 +78,7 @@ namespace invetario_api.Modules.auth
             return new LoginResponse
             {
                 token = token,
-                user = findUser
+                user = UserLogin.fromEntity(findUser)
             };
         }
 

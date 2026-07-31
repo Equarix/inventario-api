@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using invetario_api.Modules.box.entity;
 using invetario_api.Modules.store.entity;
+using invetario_api.Modules.storeUser.entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace invetario_api.Modules.users.entity
@@ -32,5 +34,9 @@ namespace invetario_api.Modules.users.entity
         public bool status { get; set; } = true;
 
         public ICollection<Store> stores { get; set; } = new List<Store>();
+
+        public ICollection<BoxUser> boxUsers { get; set; } = new List<BoxUser>();
+
+        public ICollection<Storeuser> storeUsers { get; set; } = new List<Storeuser>();
     }
 }

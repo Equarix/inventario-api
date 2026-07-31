@@ -19,6 +19,7 @@ using invetario_api.Modules.config.entity;
 using invetario_api.Modules.chat.entity;
 using invetario_api.Modules.proforma.entity;
 using invetario_api.Modules.box.entity;
+using invetario_api.Modules.dayBox.entity;
 namespace invetario_api.database
 {
     public class Database : DbContext
@@ -71,7 +72,9 @@ namespace invetario_api.database
 
         public DbSet<Box> boxs { get; set; }
 
-public Database(DbContextOptions<Database> options) : base(options) { }
+        public DbSet<Daybox> dayBoxs { get; set; }
+
+        public Database(DbContextOptions<Database> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -23,5 +23,11 @@ namespace invetario_api.Modules.users.dto
 
         [EnumDataType(typeof(Role))]
         public Role? role { get; set; }
+
+        [Required]
+        public List<int>? storeIds { get; set; }
+
+        [Required]
+        public List<int>? boxIds { get; set; }
     }
 }

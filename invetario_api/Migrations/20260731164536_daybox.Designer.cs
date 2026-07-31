@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using invetario_api.database;
 
@@ -11,9 +12,11 @@ using invetario_api.database;
 namespace invetario_api.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20260731164536_daybox")]
+    partial class daybox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,29 +56,6 @@ namespace invetario_api.Migrations
                     b.HasIndex("storeId");
 
                     b.ToTable("Boxs");
-                });
-
-            modelBuilder.Entity("invetario_api.Modules.box.entity.BoxUser", b =>
-                {
-                    b.Property<int>("boxUserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("boxUserId"));
-
-                    b.Property<int>("boxId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
-                    b.HasKey("boxUserId");
-
-                    b.HasIndex("boxId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("BoxUsers");
                 });
 
             modelBuilder.Entity("invetario_api.Modules.categories.entity.Category", b =>
@@ -941,25 +921,6 @@ namespace invetario_api.Migrations
                     b.Navigation("store");
                 });
 
-            modelBuilder.Entity("invetario_api.Modules.box.entity.BoxUser", b =>
-                {
-                    b.HasOne("invetario_api.Modules.box.entity.Box", "box")
-                        .WithMany("boxUsers")
-                        .HasForeignKey("boxId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("invetario_api.Modules.users.entity.User", "user")
-                        .WithMany("boxUsers")
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("box");
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("invetario_api.Modules.chat.entity.ChatMessage", b =>
                 {
                     b.HasOne("invetario_api.Modules.store.entity.Store", "store")
@@ -982,7 +943,7 @@ namespace invetario_api.Migrations
             modelBuilder.Entity("invetario_api.Modules.dayBox.entity.Daybox", b =>
                 {
                     b.HasOne("invetario_api.Modules.box.entity.Box", "box")
-                        .WithMany("dayboxes")
+                        .WithMany()
                         .HasForeignKey("boxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1253,13 +1214,6 @@ namespace invetario_api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("invetario_api.Modules.box.entity.Box", b =>
-                {
-                    b.Navigation("boxUsers");
-
-                    b.Navigation("dayboxes");
-                });
-
             modelBuilder.Entity("invetario_api.Modules.categories.entity.Category", b =>
                 {
                     b.Navigation("products");
@@ -1317,8 +1271,6 @@ namespace invetario_api.Migrations
 
             modelBuilder.Entity("invetario_api.Modules.users.entity.User", b =>
                 {
-                    b.Navigation("boxUsers");
-
                     b.Navigation("stores");
                 });
 #pragma warning restore 612, 618
