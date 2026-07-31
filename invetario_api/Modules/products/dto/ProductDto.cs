@@ -42,5 +42,21 @@ namespace invetario_api.Modules.products.dto
         [Required]
         [Range(1, int.MaxValue)]
         public int imageId { get; set; }
+
+        [Required]
+        public ICollection<ProductPriceDto> productPrices { get; set; } = new List<ProductPriceDto>();
     }
+
+
+    public class ProductPriceDto
+    {
+
+        [Required]
+        [Range(1.00, float.MaxValue)]
+        public float price { get; set; }
+
+        [Required]
+        public bool status { get; set; } = true;
+    }
+
 }

@@ -60,6 +60,22 @@ namespace invetario_api.Modules.products
             };
 
             await _db.products.AddAsync(newProduct);
+
+
+            var productPrices = new List<ProductPrices>();
+
+            foreach (var priceDto in product.productPrices)
+            {
+                var newProductPrice = new ProductPrices
+                {
+                    product = newProduct,
+                    price = priceDto.price,
+                    status = priceDto.status
+                };
+                await _db.productPrices.AddAsync(newProductPrice);
+                productPrices.Add(newProductPrice);
+            }
+
             await _db.SaveChangesAsync();
 
             var productResponse = ProductResponse.fromEntity(newProduct);
@@ -91,6 +107,7 @@ namespace invetario_api.Modules.products
                 .Include(p => p.category)
                 .Include(p => p.unit)
                 .Include(p => p.image)
+                .Include(p => p.productPrices)
                 .Where(p => p.productId == productId)
                 .FirstOrDefaultAsync();
             if (findProduct == null)
@@ -121,6 +138,7 @@ namespace invetario_api.Modules.products
                 .Include(p => p.category)
                 .Include(p => p.unit)
                 .Include(p => p.image)
+                .Include(p => p.productPrices)
                 .Skip((paginate.page - 1) * paginate.limit)
                 .Take(paginate.limit)
                 .ToListAsync();
@@ -152,6 +170,8 @@ namespace invetario_api.Modules.products
                     .ThenInclude(p => p.unit)
                 .Include(ps => ps.product)
                     .ThenInclude(p => p.image)
+                .Include(ps => ps.product)
+                    .ThenInclude(p => p.productPrices)
                 .ToListAsync();
             var productsResponse = products.Select(ps => ProductResponse.fromEntity(ps.product)).ToList();
             return productsResponse;
@@ -207,6 +227,27 @@ namespace invetario_api.Modules.products
             {
                 findProductTask.status = product.status.Value;
             }
+
+
+            var productPrices = await _db.productPrices.Where(pp => pp.productId == productId).ToListAsync();
+
+            _db.productPrices.RemoveRange(productPrices);
+
+
+            foreach (var priceDto in product.productPrices)
+            {
+                var newProductPrice = new ProductPrices
+                {
+                    productId = findProductTask.productId,
+                    price = priceDto.price,
+                    status = priceDto.status
+                };
+                await _db.productPrices.AddAsync(newProductPrice);
+                productPrices.Add(newProductPrice);
+            }
+
+
+
             await _db.SaveChangesAsync();
             return ProductResponse.fromEntity(findProductTask);
         }

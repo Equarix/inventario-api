@@ -24,6 +24,8 @@ namespace invetario_api.Modules.products.response
         public bool status { get; set; }
         public ImageResponse image { get; set; }
 
+        public ICollection<ProductPriceResponse> productPrices { get; set; } = new List<ProductPriceResponse>();
+
         public static ProductResponse fromEntity(entity.Product product)
         {
             return new ProductResponse
@@ -39,13 +41,41 @@ namespace invetario_api.Modules.products.response
                 priceSell = product.priceSell,
                 minStock = product.minStock,
                 status = product.status,
-                image = ImageResponse.FromEntity(product.image)
+                image = ImageResponse.FromEntity(product.image),
+                productPrices = ProductPriceResponse.fromEntityList(product.productPrices.ToList())
             };
         }
 
         public static List<ProductResponse> fromEntityList(List<Product> products)
         {
             return products.Select(p => fromEntity(p)).ToList();
+        }
+    }
+
+
+    public class ProductPriceResponse
+    {
+        public int productPriceId { get; set; }
+        public float price { get; set; }
+
+        public DateTime createdAt { get; set; }
+
+        public bool status { get; set; }
+
+        public static ProductPriceResponse fromEntity(ProductPrices productPrice)
+        {
+            return new ProductPriceResponse
+            {
+                productPriceId = productPrice.productPriceId,
+                price = productPrice.price,
+                status = productPrice.status,
+                createdAt = productPrice.createdAt
+            };
+        }
+
+        public static List<ProductPriceResponse> fromEntityList(List<ProductPrices> productPrices)
+        {
+            return productPrices.Select(p => fromEntity(p)).ToList();
         }
     }
 }

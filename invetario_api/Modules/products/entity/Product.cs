@@ -56,5 +56,7 @@ namespace invetario_api.Modules.products.entity
         public ICollection<ProductStore> productStores { get; set; } = new List<ProductStore>();
 
         public ICollection<EntryOrderDetail> entryOrderDetails { get; set; } = new List<EntryOrderDetail>();
+
+        public ICollection<ProductPrices> productPrices { get; set; } = new List<ProductPrices>();
     }
 }

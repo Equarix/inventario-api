@@ -70,6 +70,8 @@ namespace invetario_api.database
 
         public DbSet<ReportProduct> reportProducts { get; set; }
 
+        public DbSet<ProductPrices> productPrices { get; set; }
+
         public Database(DbContextOptions<Database> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
