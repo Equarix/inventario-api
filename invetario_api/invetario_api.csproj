@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\box\response\" />
     <Folder Include="Modules\entryorder\response\" />
     <Folder Include="Modules\home\" />
     <Folder Include="Modules\images\response\" />

@@ -10,9 +10,7 @@ using invetario_api.Modules.provider.entity;
 using invetario_api.Modules.client.entity;
 using invetario_api.Modules.entryorder.entity;
 using invetario_api.Modules.images.entity;
-using invetario_api.Modules.box.entity;
 using invetario_api.Modules.payMethod.entity;
-using invetario_api.Modules.boxMove.entity;
 
 
 using invetario_api.Modules.storeUser.entity;
@@ -46,11 +44,9 @@ namespace invetario_api.database
 
         public DbSet<Images> images { get; set; }
 
-        public DbSet<Box> boxs { get; set; }
 
         public DbSet<Paymethod> payMethods { get; set; }
 
-        public DbSet<Boxmove> boxMoves { get; set; }
 
         public DbSet<Storeuser> storeUsers { get; set; }
 

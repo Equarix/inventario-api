@@ -18,10 +18,8 @@ using invetario_api.Modules.client;
 using invetario_api.Modules.entryorder;
 using invetario_api.Modules.images;
 using Microsoft.Extensions.FileProviders;
-using invetario_api.Modules.box;
 using invetario_api.Modules.users.current_user;
 using invetario_api.Modules.payMethod;
-using invetario_api.Modules.boxMove;
 using invetario_api.Modules.storeUser;
 using invetario_api.Modules.sale;
 using invetario_api.Modules.config;
@@ -66,11 +64,9 @@ builder.Services.AddScoped<IEntryorderService, EntryorderService>();
 builder.Services.AddScoped<IImagesService, ImagesService>();
 
 
-builder.Services.AddScoped<IBoxService, BoxService>();
 
 builder.Services.AddScoped<IPaymethodService, PaymethodService>();
 
-builder.Services.AddScoped<IBoxmoveService, BoxmoveService>();
 
 
 
