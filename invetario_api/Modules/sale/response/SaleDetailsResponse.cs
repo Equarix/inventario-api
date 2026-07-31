@@ -11,6 +11,8 @@ public class SaleDetailsResponse
     public int quantity { get; set; }
     public decimal priceSell { get; set; }
 
+    public decimal priceSelected { get; set; }
+
     public static SaleDetailsResponse FromEntity(entity.SaleDetails saleDetail)
     {
         return new SaleDetailsResponse
@@ -19,7 +21,8 @@ public class SaleDetailsResponse
             product = ProductSingleResponse.fromEntity(saleDetail.product),
             productName = saleDetail.productName,
             quantity = saleDetail.quantity,
-            priceSell = saleDetail.priceSell
+            priceSell = saleDetail.priceSell,
+            priceSelected = saleDetail.priceSelected
         };
     }
 

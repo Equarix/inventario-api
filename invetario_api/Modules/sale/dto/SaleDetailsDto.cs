@@ -13,4 +13,7 @@ public class SaleDetailsDto
     [Range(0, float.MaxValue)]
     public int quantity { get; set; }
 
+    [Required]
+    [Range(0, float.MaxValue)]
+    public float price { get; set; }
 }

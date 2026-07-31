@@ -24,7 +24,7 @@ namespace invetario_api.Modules.products.response
         public bool status { get; set; }
         public ImageResponse image { get; set; }
 
-        public ICollection<ProductPriceResponse> productPrices { get; set; } = new List<ProductPriceResponse>();
+        public List<ProductPriceResponse> productPrices { get; set; } = new List<ProductPriceResponse>();
 
         public static ProductResponse fromEntity(entity.Product product)
         {

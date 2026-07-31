@@ -116,6 +116,7 @@ namespace invetario_api.Modules.sale
                         g => g.Sum(x => x.quantity)
                     );
 
+
                 var productIds = saleDetailsDict.Keys.ToList();
 
                 var productStores = await _db.productStores
@@ -184,13 +185,18 @@ namespace invetario_api.Modules.sale
                 {
                     var quantity = saleDetailsDict[ps.productId];
 
+                    var price = data.saleDetails
+                        .Where(sd => sd.productId == ps.productId)
+                        .Sum(sd => sd.price);
+
                     _db.saleDetails.Add(new SaleDetails
                     {
                         sale = sale,
                         productId = ps.productId,
                         productName = ps.product.name,
                         quantity = quantity,
-                        priceSell = Decimal.Round((decimal)ps.product.priceSell, 2)
+                        priceSell = Decimal.Round((decimal)ps.product.priceSell, 2),
+                        priceSelected = Decimal.Round((decimal)price, 2)
                     });
                 }
 

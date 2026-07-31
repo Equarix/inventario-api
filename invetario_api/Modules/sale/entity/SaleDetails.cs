@@ -33,4 +33,7 @@ public class SaleDetails
 
     [Required]
     public decimal priceSell { get; set; }
+
+    [Required]
+    public decimal priceSelected { get; set; }
 }
