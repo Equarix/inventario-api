@@ -19,4 +19,5 @@ FROM base AS final
 WORKDIR /app
 RUN mkdir -p /app/static
 COPY --from=publish /app/publish .
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "invetario_api.dll"]

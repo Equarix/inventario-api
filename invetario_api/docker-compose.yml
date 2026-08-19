@@ -5,12 +5,10 @@ services:
       dockerfile: Dockerfile
     container_name: inventario_api
     ports:
-      - "8080:8080"
+      - "8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
       - ASPNETCORE_URLS=${ASPNETCORE_URLS:-http://0.0.0.0:8080}
       - ConnectionStrings__DefaultConnection=${ConnectionStrings__DefaultConnection:-Server=uniclinic-mssql-reniec.bhhnw6.easypanel.host;Database=inventarioDB;User Id=sa;Password=YourStrong@Password123;TrustServerCertificate=True;}
       - Jwt__Key=${Jwt__Key:-fae9276155ef68618b9f1ba050dcc5e21a1545768685effc98efa82c6039c71c}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     restart: always
