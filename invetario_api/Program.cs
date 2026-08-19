@@ -192,11 +192,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+var staticPath = Path.Combine(Directory.GetCurrentDirectory(), "static");
+if (!Directory.Exists(staticPath))
+{
+    Directory.CreateDirectory(staticPath);
+}
+
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "static")
-    ),
+    FileProvider = new PhysicalFileProvider(staticPath),
     RequestPath = "/api/static"
 });
 

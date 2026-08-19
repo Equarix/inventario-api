@@ -17,5 +17,6 @@ RUN dotnet publish "invetario_api.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 
 FROM base AS final
 WORKDIR /app
+RUN mkdir -p /app/static
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "invetario_api.dll"]
