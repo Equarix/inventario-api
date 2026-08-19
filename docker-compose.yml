@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  inventario-api:
+    build:
+      context: ./invetario_api
+      dockerfile: Dockerfile
+    container_name: inventario_api
+    env_file:
+      - ./invetario_api/.env
+    ports:
+      - "8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
